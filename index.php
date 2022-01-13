@@ -391,7 +391,13 @@ function replace_string_in_file($filename, $string_to_replace, $replace_with)
 //var_dump($pippo);
 
 $mimmo=glob('C:\xampp\htdocs\copernico\*.xml');
-var_dump($mimmo);
+
+foreach($mimmo as $f){
+    echo (basename($f)).'<br>';
+    $fn=(basename($f));
+
+
+
 $fn = "IT04743741003_OZ_00fFe.xml";
 
 $result=file_get_contents($fn);
@@ -412,19 +418,19 @@ $filename = $fn; //"users/data/letter.txt";
 $string_to_replace = "ext:";
 $replace_with = "";
 replace_string_in_file($filename, $string_to_replace, $replace_with);
-
-
-
-
 echo $fn.'<br>';
 $data = new SimpleXmlElement($fn, null, true);
 json_encode($data);
-//var_dump($data);
 $namespaces = $data->getNamespaces(true);
+
+
+
 /*foreach($data->children($namespaces['cac']) as $entry) { 
     $eID = $entry->ID ; echo $entry." ".$eID."<br>"; } 
    */
-$new = ($data->Order);
+
+
+   $new = ($data->Order);
 $con = json_encode($new);
 // Convert into associative array
 //$newArr = json_decode($con, true);
@@ -454,4 +460,5 @@ unset($file_out[$row_number]);
 //Recorded in a file
 file_put_contents("stext.xml", implode("", $file_out));
 echo"bananarama";
+}
 ?>
