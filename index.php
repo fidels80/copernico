@@ -393,11 +393,11 @@ function replace_string_in_file($filename, $string_to_replace, $replace_with)
 $mimmo=glob('C:\xampp\htdocs\copernico\*.xml');
 var_dump($mimmo);
 $fn = "IT04743741003_OZ_00fFe.xml";
-$correggi = file($fn);
-$word = '';
-$result = '';
-$fn='c_'.$fn;
-//file_put_contents($fn, $result);
+
+$result=file_get_contents($fn);
+
+$fn='C:\xampp\htdocs\copernico\eleb\ELAB_'.$fn;
+file_put_contents($fn, $result);
 
 $filename = $fn; //"users/data/letter.txt";
 $string_to_replace = "cac:";
