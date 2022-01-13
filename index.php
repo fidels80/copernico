@@ -357,7 +357,7 @@ foreach($ids as $id) {
  * @param bool $_recurse used internally, do not pass any value
  * @return array|FALSE Returns false on all failure
  */
-
+/*
 function xmlToArray($input, $callback = NULL, $_recurse = FALSE)
 {
     // Get input, loading an xml string with simplexml if its the top level of recursion
@@ -379,7 +379,7 @@ function xmlToArray($input, $callback = NULL, $_recurse = FALSE)
 $pippo = xmlToArray($xmlstr, 1);
 //print_r($pippo);
 
-
+*/
 function replace_string_in_file($filename, $string_to_replace, $replace_with)
 {
     $content = file_get_contents($filename);
@@ -396,11 +396,6 @@ $fn = "IT04743741003_OZ_00fFe.xml";
 $correggi = file($fn);
 $word = '';
 $result = '';
-
-$result = str_replace('cac:', '', $correggi);
-$result = str_replace('cbc:', '', $correggi);
-
-
 $fn='c_'.$fn;
 file_put_contents($fn, $result);
 
@@ -435,6 +430,10 @@ echo $data->Order->CustomerReference . PHP_EOL . '<br>';
 foreach ($data->Order->OrderLine as $line) {
     echo "Type:" . $line->LineItem->ID . PHP_EOL . '<br>';
     echo "ITem:" . $line->LineItem->Item->Name . PHP_EOL . '<br>';
+    $qtaatt = $line->LineItem->Quantity->attributes();
+    
+    echo "Qta:  ".$line->LineItem->Quantity.'<br> unitCode=>'.$qtaatt['unitCode'].'<br> unitCodeListID=>  '
+    .$qtaatt['unitCodeListID'].'<br>';
     echo "ClassifiedTaxCategory" . $line->LineItem->Item->ClassifiedTaxCategory->ID.PHP_EOL.'<br>';
     echo "ClassifiedTaxCategoryaee" . $line->LineItem->Item->ClassifiedTaxCategory->attributes()->schemeID . '<br>';
     $testatt = $line->LineItem->Item->ClassifiedTaxCategory->ID->attributes();
