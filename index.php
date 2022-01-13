@@ -397,7 +397,7 @@ $correggi = file($fn);
 $word = '';
 $result = '';
 $fn='c_'.$fn;
-file_put_contents($fn, $result);
+//file_put_contents($fn, $result);
 
 $filename = $fn; //"users/data/letter.txt";
 $string_to_replace = "cac:";
@@ -408,8 +408,15 @@ $filename = $fn; //"users/data/letter.txt";
 $string_to_replace = "cbc:";
 $replace_with = "";
 replace_string_in_file($filename, $string_to_replace, $replace_with);
+$filename = $fn; //"users/data/letter.txt";
+$string_to_replace = "ext:";
+$replace_with = "";
+replace_string_in_file($filename, $string_to_replace, $replace_with);
 
-echo $fn;
+
+
+
+echo $fn.'<br>';
 $data = new SimpleXmlElement($fn, null, true);
 json_encode($data);
 //var_dump($data);
