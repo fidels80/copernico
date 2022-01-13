@@ -435,7 +435,7 @@ echo $data->Order->CustomerReference . PHP_EOL . '<br>';
 foreach ($data->Order->OrderLine as $line) {
     echo "Type:" . $line->LineItem->ID . PHP_EOL . '<br>';
     echo "ITem:" . $line->LineItem->Item->Name . PHP_EOL . '<br>';
-    echo "ClassifiedTaxCategory" . $line->LineItem->Item->ClassifiedTaxCategory->ID . PHP_EOL . '<br>';
+    echo "ClassifiedTaxCategory" . $line->LineItem->Item->ClassifiedTaxCategory->ID.PHP_EOL.'<br>';
     echo "ClassifiedTaxCategoryaee" . $line->LineItem->Item->ClassifiedTaxCategory->attributes()->schemeID . '<br>';
     $testatt = $line->LineItem->Item->ClassifiedTaxCategory->ID->attributes();
     echo "attClassifiedTaxCategoryaee" . $testatt['schemeID'] . '<br>';
@@ -447,4 +447,5 @@ $file_out = file("stest.xml"); // Read the whole file into an array
 unset($file_out[$row_number]);
 //Recorded in a file
 file_put_contents("stext.xml", implode("", $file_out));
+echo"bananananananananananana";
 ?>
