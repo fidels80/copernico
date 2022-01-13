@@ -452,6 +452,8 @@ foreach ($data->Order->OrderLine as $line) {
     $testatt = $line->LineItem->Item->ClassifiedTaxCategory->ID->attributes();
     echo "attClassifiedTaxCategoryaee" . $testatt['schemeID'] . '<br>';
     var_dump($line->LineItem->Item->ClassifiedTaxCategory);
+
+    
 }
 $row_number = 31;    // Number of the line we are deleting
 $file_out = file("stest.xml"); // Read the whole file into an array
