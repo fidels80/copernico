@@ -453,5 +453,5 @@ $file_out = file("stest.xml"); // Read the whole file into an array
 unset($file_out[$row_number]);
 //Recorded in a file
 file_put_contents("stext.xml", implode("", $file_out));
-echo"bananananananananananana";
+echo"bananarama";
 ?>
