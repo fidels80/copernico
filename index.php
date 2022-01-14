@@ -2,19 +2,6 @@
 
 <?php
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 $xmlstr = <<<XML
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <StandardBusinessDocument xmlns="http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader">
@@ -291,95 +278,6 @@ $xmlstr = <<<XML
 </StandardBusinessDocument>
 
 XML;
-
-
-
-
-/*$xml='C:\Users\marco.cardinale\Documents\copernico\IT04743741003_OZ_00fFe.xml';
-$test=fopen($xml, "r");
-if ($test) {
-    $x = fread($test, filesize($xml));
-    // return $x;   
-}
-print_r($x);
-$xml2 = $x;
-print_r('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-$res=json_decode(json_encode(simplexml_load_string($xml2, "SimpleXMLElement", LIBXML_NOCDATA)),1);
-print_r($res);
-print_r('11111111111111111111111111111111111111111111111111111111111');
-print_r('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-print_r('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-print_r('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-print_r('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-print_r('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-print_r('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-print_r('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-print_r('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-print_r('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-print_r('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-print_r('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-print_r('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-print_r('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-print_r('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-print_r('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-print_r('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-print_r('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-print_r('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-print_r('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-
-$get = file_get_contents($xml);
-$arr = simplexml_load_string($get);
-//print_r($arr->Order);
-echo $arr->asXML();
-print_r('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-print_r('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-print_r('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-print_r('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-$ids = simplexml_load_string($arr->Order,"SimpleXMLElement", LIBXML_NOCDATA);
-print_r($ids);
-
-foreach($ids as $id) {
-    echo $id;
-}
-
-*/
-/**
- * Unserializes an XML string, returning a multi-dimensional associative array, optionally runs a callback on
- * all non-array data
- *
- * Notes:
- *  Root XML tags are stripped
- *  Due to its recursive nature, unserialize_xml() will also support SimpleXMLElement objects and arrays as input
- *  Uses simplexml_load_string() for XML parsing, see SimpleXML documentation for more info
- *
- * @param mixed $input
- * @param callback $callback
- * @param bool $_recurse used internally, do not pass any value
- * @return array|FALSE Returns false on all failure
- */
-/*
-function xmlToArray($input, $callback = NULL, $_recurse = FALSE)
-{
-    // Get input, loading an xml string with simplexml if its the top level of recursion
-    $data = ((!$_recurse) && is_string($input)) ? simplexml_load_string($input) : $input;
-
-    // Convert SimpleXMLElements to array
-    if ($data instanceof SimpleXMLElement) {
-        $data = (array) $data;
-    }
-
-    // Recurse into arrays
-    if (is_array($data)) foreach ($data as &$item) {
-        $item = xmlToArray($item, $callback, TRUE);
-    }
-
-    // Run callback and return
-    return (!is_array($data) && is_callable($callback)) ? call_user_func($callback, $data) : $data;
-}
-$pippo = xmlToArray($xmlstr, 1);
-//print_r($pippo);
-
-*/
 function replace_string_in_file($filename, $string_to_replace, $replace_with)
 {
     $content = file_get_contents($filename);
@@ -393,7 +291,7 @@ function replace_string_in_file($filename, $string_to_replace, $replace_with)
 $mimmo=glob('C:\xampp\htdocs\copernico\*.xml');
 
 foreach($mimmo as $f){
-    echo (basename($f)).'<br>';
+    echo '<br>'.(basename($f)).'<br><br><br>';
     $fn=(basename($f));
 
 
@@ -443,6 +341,8 @@ echo $data->Order->CustomerReference . PHP_EOL . '<br>';
 foreach ($data->Order->OrderLine as $line) {
     echo "Type:" . $line->LineItem->ID . PHP_EOL . '<br>';
     echo "ITem:" . $line->LineItem->Item->Name . PHP_EOL . '<br>';
+    $c=$line->LineItem->Item->Name ;
+    var_dump($c);
     $qtaatt = $line->LineItem->Quantity->attributes();
     
     echo "Qta:  ".$line->LineItem->Quantity.'<br> unitCode=>'.$qtaatt['unitCode'].'<br> unitCodeListID=>  '
@@ -451,7 +351,7 @@ foreach ($data->Order->OrderLine as $line) {
     echo "ClassifiedTaxCategoryaee" . $line->LineItem->Item->ClassifiedTaxCategory->attributes()->schemeID . '<br>';
     $testatt = $line->LineItem->Item->ClassifiedTaxCategory->ID->attributes();
     echo "attClassifiedTaxCategoryaee" . $testatt['schemeID'] . '<br>';
-    var_dump($line->LineItem->Item->ClassifiedTaxCategory);
+//    var_dump($line->LineItem->Item->ClassifiedTaxCategory);
 
     
 }
@@ -462,5 +362,18 @@ unset($file_out[$row_number]);
 //Recorded in a file
 file_put_contents("stext.xml", implode("", $file_out));
 echo"bananarama";
-}
+}//fineciclofile
+
+$xmlstr3=simplexml_load_string($xmlstr);
+
+var_dump($xmlstr3->Order->children("cbc",TRUE)->ID);
+var_dump($xmlstr3->Order->children("cac",TRUE)->OrderLine->children("cac",TRUE)->LineItem->children("cbc",TRUE)->ID);
+$mim=($xmlstr3->Order->children("cac",TRUE)->OrderLine->children("cac",TRUE)->LineItem->children("cac",TRUE)->Item
+->children("cbc",TRUE)->Name);
+//->children("cac",TRUE)->LineItem->children("cac",TRUE)->Item->children("cbc",TRUE)->Name);
+var_dump($mim);
+
+
+
+
 ?>
