@@ -364,8 +364,9 @@ file_put_contents("stext.xml", implode("", $file_out));
 echo"bananarama";
 }//fineciclofile
 
-$xmlstr3=simplexml_load_string($xmlstr);
 
+
+$xmlstr3=simplexml_load_string($xmlstr);
 var_dump($xmlstr3->Order->children("cbc",TRUE)->ID);
 var_dump($xmlstr3->Order->children("cac",TRUE)->OrderLine->children("cac",TRUE)->LineItem->children("cbc",TRUE)->ID);
 $mim=($xmlstr3->Order->children("cac",TRUE)->OrderLine->children("cac",TRUE)->LineItem->children("cac",TRUE)->Item
