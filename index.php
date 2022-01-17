@@ -288,90 +288,90 @@ function replace_string_in_file($filename, $string_to_replace, $replace_with)
 
 //var_dump($pippo);
 
-$mimmo=glob('C:\xampp\htdocs\copernico\*.xml');
+$mimmo = glob('C:\xampp\htdocs\copernico\*.xml');
 
-foreach($mimmo as $f){
-    echo '<br>'.(basename($f)).'<br><br><br>';
-    $fn=(basename($f));
-
-
-
-$fn = "IT04743741003_OZ_00fFe.xml";
-
-$result=file_get_contents($fn);
-
-$fn='C:\xampp\htdocs\copernico\eleb\ELAB_'.$fn;
-file_put_contents($fn, $result);
-
-$filename = $fn; //"users/data/letter.txt";
-$string_to_replace = "cac:";
-$replace_with = "";
-replace_string_in_file($filename, $string_to_replace, $replace_with);
-
-$filename = $fn; //"users/data/letter.txt";
-$string_to_replace = "cbc:";
-$replace_with = "";
-replace_string_in_file($filename, $string_to_replace, $replace_with);
-$filename = $fn; //"users/data/letter.txt";
-$string_to_replace = "ext:";
-$replace_with = "";
-replace_string_in_file($filename, $string_to_replace, $replace_with);
-echo $fn.'<br>';
-$data = new SimpleXmlElement($fn, null, true);
-json_encode($data);
-$namespaces = $data->getNamespaces(true);
+foreach ($mimmo as $f) {
+    echo '<br>' . (basename($f)) . '<br><br><br>';
+    $fn = (basename($f));
 
 
 
-/*foreach($data->children($namespaces['cac']) as $entry) { 
+    $fn = "IT04743741003_OZ_00fFe.xml";
+
+    $result = file_get_contents($fn);
+
+    $fn = 'C:\xampp\htdocs\copernico\eleb\ELAB_' . $fn;
+    file_put_contents($fn, $result);
+
+    $filename = $fn; //"users/data/letter.txt";
+    $string_to_replace = "cac:";
+    $replace_with = "";
+    replace_string_in_file($filename, $string_to_replace, $replace_with);
+
+    $filename = $fn; //"users/data/letter.txt";
+    $string_to_replace = "cbc:";
+    $replace_with = "";
+    replace_string_in_file($filename, $string_to_replace, $replace_with);
+    $filename = $fn; //"users/data/letter.txt";
+    $string_to_replace = "ext:";
+    $replace_with = "";
+    replace_string_in_file($filename, $string_to_replace, $replace_with);
+    echo $fn . '<br>';
+    $data = new SimpleXmlElement($fn, null, true);
+    json_encode($data);
+    $namespaces = $data->getNamespaces(true);
+
+    /*foreach($data->children($namespaces['cac']) as $entry) { 
     $eID = $entry->ID ; echo $entry." ".$eID."<br>"; } 
    */
+    $new = ($data->Order);
+    $con = json_encode($new);
+    // Convert into associative array
+    //$newArr = json_decode($con, true);
+    $subnest = json_encode($data->Order->OrderLine);
+    //var_dump(json_decode($stocazzo,TRUE));
+    //var_dump( strval($data->Order));
+    $t = simplexml_load_string($xmlstr);
+    //var_dump($data->Order->OrderLine);
+    echo $data->Order->CustomerReference . PHP_EOL . '<br>';
+    foreach ($data->Order->OrderLine as $line) {
+        echo "Type:" . $line->LineItem->ID . PHP_EOL . '<br>';
+        echo "ITem:" . $line->LineItem->Item->Name . PHP_EOL . '<br>';
+        $c = $line->LineItem->Item->Name;
+        var_dump($c);
+        $qtaatt = $line->LineItem->Quantity->attributes();
 
-
-   $new = ($data->Order);
-$con = json_encode($new);
-// Convert into associative array
-//$newArr = json_decode($con, true);
-$subnest = json_encode($data->Order->OrderLine);
-//var_dump(json_decode($stocazzo,TRUE));
-//var_dump( strval($data->Order));
-$t = simplexml_load_string($xmlstr);
-//var_dump($data->Order->OrderLine);
-echo $data->Order->CustomerReference . PHP_EOL . '<br>';
-foreach ($data->Order->OrderLine as $line) {
-    echo "Type:" . $line->LineItem->ID . PHP_EOL . '<br>';
-    echo "ITem:" . $line->LineItem->Item->Name . PHP_EOL . '<br>';
-    $c=$line->LineItem->Item->Name ;
-    var_dump($c);
-    $qtaatt = $line->LineItem->Quantity->attributes();
-    
-    echo "Qta:  ".$line->LineItem->Quantity.'<br> unitCode=>'.$qtaatt['unitCode'].'<br> unitCodeListID=>  '
-    .$qtaatt['unitCodeListID'].'<br>';
-    echo "ClassifiedTaxCategory" . $line->LineItem->Item->ClassifiedTaxCategory->ID.PHP_EOL.'<br>';
-    echo "ClassifiedTaxCategoryaee" . $line->LineItem->Item->ClassifiedTaxCategory->attributes()->schemeID . '<br>';
-    $testatt = $line->LineItem->Item->ClassifiedTaxCategory->ID->attributes();
-    echo "attClassifiedTaxCategoryaee" . $testatt['schemeID'] . '<br>';
-//    var_dump($line->LineItem->Item->ClassifiedTaxCategory);
-
-    
-}
-$row_number = 31;    // Number of the line we are deleting
-$file_out = file("stest.xml"); // Read the whole file into an array
-//Delete the recorded line
-unset($file_out[$row_number]);
-//Recorded in a file
-file_put_contents("stext.xml", implode("", $file_out));
-echo"bananarama";
-}//fineciclofile
+        echo "Qta:  " . $line->LineItem->Quantity . '<br> unitCode=>' . $qtaatt['unitCode'] . '<br> unitCodeListID=>  '
+            . $qtaatt['unitCodeListID'] . '<br>';
+        echo "ClassifiedTaxCategory" . $line->LineItem->Item->ClassifiedTaxCategory->ID . PHP_EOL . '<br>';
+        echo "ClassifiedTaxCategoryaee" . $line->LineItem->Item->ClassifiedTaxCategory->attributes()->schemeID . '<br>';
+        $testatt = $line->LineItem->Item->ClassifiedTaxCategory->ID->attributes();
+        echo "attClassifiedTaxCategoryaee" . $testatt['schemeID'] . '<br>';
+    }
+    $row_number = 31;    // Number of the line we are deleting
+    $file_out = file("stest.xml"); // Read the whole file into an array
+    //Delete the recorded line
+    unset($file_out[$row_number]);
+    //Recorded in a file
+    file_put_contents("stext.xml", implode("", $file_out));
+    echo "bananarama";
+} //fineciclofile
 
 
 
-$xmlstr3=simplexml_load_string($xmlstr);
-var_dump($xmlstr3->Order->children("cbc",TRUE)->ID);
-var_dump($xmlstr3->Order->children("cac",TRUE)->OrderLine->children("cac",TRUE)->LineItem->children("cbc",TRUE)->ID);
-$mim=($xmlstr3->Order->children("cac",TRUE)->OrderLine->children("cac",TRUE)->LineItem->children("cac",TRUE)->Item
-->children("cbc",TRUE)->Name);
+$xmlstr3 = simplexml_load_string($xmlstr);
+var_dump($xmlstr3->Order->children("cbc", TRUE)->ID);
+var_dump($xmlstr3->Order->children("cac", TRUE)->OrderLine->children("cac", TRUE)->LineItem->children("cbc", TRUE)->ID);
+$mim = ($xmlstr3->Order->children("cac", TRUE)->OrderLine->children("cac", TRUE)->LineItem->children("cac", TRUE)->Item
+    ->children("cbc", TRUE)->Name);
 //->children("cac",TRUE)->LineItem->children("cac",TRUE)->Item->children("cbc",TRUE)->Name);
+echo '<br><br>';
+foreach ($xmlstr3->Order->children("cac", TRUE)->OrderLine as $line1) {
+
+    echo "1  ITem:" . $line1->children("cac", TRUE)->LineItem->children("cac", TRUE)->Item->children("cbc", TRUE)->Name;
+    echo '<br><br>';
+}
+echo '<br><br>';
 var_dump($mim);
 
 
