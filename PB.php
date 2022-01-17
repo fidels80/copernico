@@ -13,7 +13,6 @@ class ProgressBar
 	var $tbarid;
 	var $textid;
 	var $decimals = 1;
-
 	function __construct($percentDone = 0)
 	{
 		$this->pbid = 'pb';
@@ -114,6 +113,11 @@ class ProgressBar
 		//ob_end_flush();
 		flush();
 	}
+function processaxml($file){
+//fai la magia!
+echo "<br><br><strong>sto dentro ".$file.'</strong><br>';
+}
+
 }
 $content = "";
 echo 'Avvio Conversione&hellip;<br />';
@@ -124,58 +128,22 @@ $p->render();
 echo '</div>';
 $mimmo = glob('C:\xampp\htdocs\copernico\*.xml');
 $f=0;
+$i=0;
+$size = 100;
+$conta=100/count($mimmo);
 foreach ($mimmo as $t) {
-$f=$f+1;
-	/*
-	
-	f sta a 100 come x sta a 1
-	conta=100/f
-	i=i+conta
-	*/
+//}
+
+if (count($mimmo)==1)
+{
+$i=100;
 }
-$conta=100/$f;
-for ($i = 0; $i < ($size = 100);$i=$i+$conta) {
+$p->processaxml($t);
 
-	/*$i aumento del rapporto tra il totale dei files da elaborare e 100
-es 10 file
-a ogni file i fa +10
-es 5 file
-a ogni file i fa +20
-es 2 
-file i fa +50
-
-
-
-
-	*/
-/*	switch (true) {
-		case $i==10:
-			echo "10";
-			break;
-		case $i==20:
-			echo "20";
-			break;
-		case $i==30:
-			echo "30";
-			break;
-		case $i==40:
-			echo "40";
-			break;
-		case $i== 50:
-			echo "50";
-			break;
-		case $i== 60:
-			echo "60";
-			break;
-		case $i== 70:
-			echo "70";
-			break;
-	}*/
-	echo round($i,2).'%<br>';
-
-
+	echo basename($t).'<br>'.round($i,2).'%<br>';
 	$p->setProgressBarProgress($i * 100 / $size);
-	usleep(1000000 * 0.1);
+	usleep(10000000 * 0.1);
+	$i=$i+$conta;
 }
 $p->setProgressBarProgress(100);
 
