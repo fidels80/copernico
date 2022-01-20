@@ -69,3 +69,7 @@ class SFTPConnection
       unlink("ssh2.sftp://$sftp$remote_file");
     }
 }
+
+//$p = new ProgressBar();
+$T= new SFTPConnection('127.0.0.1');
+//$T->//__construct('127.0.0.1',22);

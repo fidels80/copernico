@@ -119,6 +119,8 @@ echo "<br><br><strong>sto dentro ".$file.'</strong><br>';
 }
 
 }
+
+/*
 $content = "";
 echo 'Avvio Conversione&hellip;<br />';
 
@@ -148,3 +150,4 @@ $p->processaxml($t);
 $p->setProgressBarProgress(100);
 
 echo 'Terminato.<br />';
+*/
