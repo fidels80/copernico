@@ -19,21 +19,25 @@ $di =str_replace('include','',$directory->getPath());
 
 
 
-
-    if ($dir=1){
+    $res=[];
+    if ($dir==1){
     $lpath = glob($di.'toelab\*.xml');
 
     foreach ($lpath as $f) {
-        echo   (basename($f)) . '<br>';
-      
+     //   echo   (basename($f)) . '<br>';
+      array_push($res,basename($f));
     }
 }else {
     $lpath = glob($di.'procfiles\*.xml');
 
     foreach ($lpath as $f) {
-        echo   (basename($f)) . '<br>';
+   //    echo   ( ($f)) . '<br>';
+   array_push($res,basename($f));
 }
 }
+
+
+return $res;
 }
 
  
@@ -43,7 +47,7 @@ function localelab(){
     $di =str_replace('include','',$directory->getPath());
     $lpath = glob($di.'toelab\*.xml');
     foreach ($lpath as $f) {
-    echo $f;
+   // echo $f;
     
     }
 
