@@ -22,7 +22,15 @@ border="1" width="311" cellspacing="10" cellpadding="10">
 <p style="text-align: center;"><img src="./img/logo.png" alt="logo" width="110%" height="110%" /></p>
 </td>
 <td style="width: 301px; height: 116.188px;" rowspan="6">File da elaborare <br>
-<?php $ls->elefile(1);?>
+<?php $ris=($ls->elefile(1));
+
+foreach($ris as $r){
+echo $r.'<br>';
+
+}
+
+
+?>
 
 </td>
 </tr>

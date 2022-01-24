@@ -111,8 +111,10 @@ $directory = new DirectoryIterator(dirname(__FILE__));
 
 
 
-function processafile($file){
+function processafile($file,$ind=null){
     $f=$file;
+     
+    ((is_null($ind)==true ) ? $ind=1 : $ind) ;
     $directory = new DirectoryIterator(dirname(__FILE__));
     $di =str_replace('include','',$directory->getPath());
     
@@ -123,40 +125,68 @@ function processafile($file){
     json_encode($data);
     $namespaces = $data->getNamespaces(true);
 
-    /*foreach($data->children($namespaces['cac']) as $entry) { 
-    $eID = $entry->ID ; echo $entry." ".$eID."<br>"; } 
-   */
+ 
     $new = ($data->Order);
     $con = json_encode($new);
-    // Convert into associative array
-    //$newArr = json_decode($con, true);
-    $subnest = json_encode($data->Order->OrderLine);
-    //var_dump(json_decode($stocazzo,TRUE));
-    //var_dump( strval($data->Order));
-    //$t = simplexml_load_string($xmlstr);
-    //var_dump($data->Order->OrderLine);
+ 
+    $subnest = ($data->Order->Children("cac", TRUE)->OrderLine);
+ 
+if (get_object_vars($subnest) <> false || count($subnest)<>0   ){
 
+ 
+  
+   $row="";
+   echo "TES";
+   $row= "TES";
     try {   
-    echo $data->Order->CustomerReference . PHP_EOL . '<br>';
-   foreach ($data->Order->OrderLine as $line) {
-        echo "Type:" . $line->LineItem->ID . PHP_EOL . '<br>';
-        echo "ITem:" . $line->LineItem->Item->Name . PHP_EOL . '<br>';
-        $c = $line->LineItem->Item->Name;
-        var_dump($c);
-        $qtaatt = $line->LineItem->Quantity->attributes();
+ 
+$dt1=     strtotime($data->Order->Children("cbc", TRUE)->IssueDate);
+$dt=date("d/m/Y",$dt1);
+    echo "|".$dt;
+    echo "|".$ind;
+    
+    $row=$row."|".$dt."|".$ind."|".$data->Order->Children("cac", TRUE)->BuyerCustomerParty->Children("cac", TRUE)->Party
+    ->Children("cac", TRUE)->PartyTaxScheme->Children("cbc", TRUE)->CompanyID .
+    "|"   .$data->Order->Children("cbc", TRUE)->IssueDate.
+    "|".$data->Order->Children("cbc", TRUE)->ID."||||".PHP_EOL;
+    echo "|".$data->Order->Children("cac", TRUE)->BuyerCustomerParty->Children("cac", TRUE)->Party
+    ->Children("cac", TRUE)->PartyTaxScheme->Children("cbc", TRUE)->CompanyID;
+     echo "|"   .$data->Order->Children("cbc", TRUE)->IssueDate;
+     echo "|".$data->Order->Children("cbc", TRUE)->ID."||||".'<br>';
+    foreach ($data->Order->Children("cac", TRUE)->OrderLine as $line) {
+echo "RIG"."|"   .$dt."|{$ind}||||";
+echo  $line->Children("cac",true)->LineItem->children("cac",true)->Item->children("cac",true)->BuyersItemIdentification->
+children("cbc",true)->ID."||";
+echo  $line->Children("cac",true)->LineItem->children("cbc",true)->Quantity;
 
-        echo "Qta:  " . $line->LineItem->Quantity . '<br> unitCode=>' . $qtaatt['unitCode'] . '<br> unitCodeListID=>  '
-            . $qtaatt['unitCodeListID'] . '<br>';
-        echo "ClassifiedTaxCategory" . $line->LineItem->Item->ClassifiedTaxCategory->ID . PHP_EOL . '<br>';
-        echo "ClassifiedTaxCategoryaee" . $line->LineItem->Item->ClassifiedTaxCategory->attributes()->schemeID . '<br>';
-        $testatt = $line->LineItem->Item->ClassifiedTaxCategory->ID->attributes();
-        echo "attClassifiedTaxCategoryaee" . $testatt['schemeID'] . '<br>';
+echo  "|".$line->Children("cac",true)->LineItem->children("cac",true)->Price->children("cbc",true)->PriceAmount;
+
+$row="RIG"."|"   .$dt."|{$ind}||||".
+$line->Children("cac",true)->LineItem->children("cac",true)->Item->children("cac",true)->BuyersItemIdentification->
+children("cbc",true)->ID."||".
+$line->Children("cac",true)->LineItem->children("cbc",true)->Quantity.
+"|".$line->Children("cac",true)->LineItem->children("cac",true)->Price->children("cbc",true)->PriceAmount.
+PHP_EOL;
+echo '<br>';
+
     }
 }
+
 catch(Exception $var) {
     print $var->getMessage();
   }
+  $di =str_replace('include','',$directory->getPath());
+    $xml=$di.'toelab\\'.(basename($f));
+  copy($xml, $di.'procfiles\\'.(basename($f)));
 
+return $row;
+}
+
+
+
+else{
+    echo "<H1>il File {$f} É   DANNEGGIATO  O NON CORRETTO!!!!</BR></H1>";
+}
 }
 
 
@@ -165,3 +195,10 @@ catch(Exception $var) {
 }
 
 ?>
+
+
+
+
+
+
+
