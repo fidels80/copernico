@@ -2,9 +2,18 @@
 <?php
 class ls {
 
+public $ini_array=array();
+ 
+
+
 function elefile($dir){
 
-$oripath= glob('c:\youdox\ordininso\*.xml');
+
+$ini_array=parse_ini_file("config.ini", true /* will scope sectionally */);
+//var_dump($ini_array);
+$oripath= glob($ini_array['percorsi']['oripath'].'*.xml');
+
+//var_dump($ini_array['percorsi']['oripath']);
 
 $directory = new DirectoryIterator(dirname(__FILE__));
 $di =str_replace('include','',$directory->getPath());
@@ -13,7 +22,7 @@ $di =str_replace('include','',$directory->getPath());
     foreach ($oripath as $f){
     if(!file_exists($di =str_replace('include','',$directory->getPath())))
     {
-        copy($f, $di.'toelab\\'.(basename($f)));
+        copy($f, $di.$ini_array['percorsi']['toelab'].(basename($f)));
     } 
     }
 
@@ -21,14 +30,14 @@ $di =str_replace('include','',$directory->getPath());
 
     $res=[];
     if ($dir==1){
-    $lpath = glob($di.'toelab\*.xml');
+    $lpath = glob($di.$ini_array['percorsi']['toelab'].'*.xml');
 
     foreach ($lpath as $f) {
      //   echo   (basename($f)) . '<br>';
       array_push($res,basename($f));
     }
 }else {
-    $lpath = glob($di.'procfiles\*.xml');
+    $lpath = glob($di.$ini_array['percorsi']['procfiles'].'*.xml');
 
     foreach ($lpath as $f) {
    //    echo   ( ($f)) . '<br>';
@@ -43,9 +52,11 @@ return $res;
  
 
 function localelab(){
+$ini_array=parse_ini_file("config.ini", true /* will scope sectionally */);
+
     $directory = new DirectoryIterator(dirname(__FILE__));
     $di =str_replace('include','',$directory->getPath());
-    $lpath = glob($di.'toelab\*.xml');
+    $lpath = glob($di.$ini_array['percorsi']['toelab'].'*.xml');
     foreach ($lpath as $f) {
    // echo $f;
     
@@ -57,12 +68,14 @@ function localelab(){
 
 
 function valfile($file){
+$ini_array=parse_ini_file("config.ini", true /* will scope sectionally */);
+
     $f=$file;
 $directory = new DirectoryIterator(dirname(__FILE__));
     $di =str_replace('include','',$directory->getPath());
     
     $xsd=$di.'include\\test100.xsd';
-    $xml=$di.'toelab\\'.(basename($f));
+    $xml=$di.$ini_array['percorsi']['toelab'].(basename($f));
 
 
     libxml_use_internal_errors(true);
@@ -112,13 +125,15 @@ $directory = new DirectoryIterator(dirname(__FILE__));
 
 
 function processafile_Copernico($file,$ind=null){
+$ini_array=parse_ini_file("config.ini", true /* will scope sectionally */);
+
     $f=$file;
      
     ((is_null($ind)==true ) ? $ind=1 : $ind) ;
     $directory = new DirectoryIterator(dirname(__FILE__));
     $di =str_replace('include','',$directory->getPath());
     
-    $file=$di.'toelab\\'.(basename($f));
+    $file=$di.$ini_array['percorsi']['toelab'].(basename($f));
     ini_set('error_reporting', E_ALL ^ E_WARNING);
 
     $data = new SimpleXmlElement($file, null, true);
@@ -174,8 +189,8 @@ catch(Exception $var) {
     print $var->getMessage();
   }
   $di =str_replace('include','',$directory->getPath());
-    $xml=$di.'toelab\\'.(basename($f));
-  copy($xml, $di.'procfiles\\'.(basename($f)));
+    $xml=$di.$ini_array['percorsi']['toelab'].(basename($f));
+  copy($xml, $di.$ini_array['percorsi']['procfiles'].(basename($f)));
   unlink($xml);
 return $row;
 }
@@ -194,16 +209,23 @@ else{
 
 
 function creafile($rows){
+$ini_array=parse_ini_file("config.ini", true /* will scope sectionally */);
 
-    $tmpfile=fopen('Sistemi_Roma_'.date('m-d-Y_hia').'.csv',"w") or die("NON POSSO CREARE IL FILE DI OUTPUT!!");
+    $nfile=$ini_array['percorsi']['output'].'Sistemi_Roma_'.date('m-d-Y_hia').'.csv';
+    $tmpfile=fopen($nfile,"w") or die("NON POSSO CREARE IL FILE DI OUTPUT!!");
     fwrite($tmpfile,$rows);
     fclose($tmpfile);
+if (strlen($rows)>10){
+
+    return $nfile;
+}else{
+    return "";
+}
 
 
 }
 }
 ?>
-
 
 
 
