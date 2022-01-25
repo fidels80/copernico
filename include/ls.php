@@ -208,10 +208,14 @@ else{
 function creafile($rows){
 $ini_array=parse_ini_file("config.ini", true /* will scope sectionally */);
 
-    $nfile=$ini_array['percorsi']['output'].'Sistemi_Roma_'.date('m-d-Y_hia').'.csv';
-    $tmpfile=fopen($nfile,"w") or die("NON POSSO CREARE IL FILE DI OUTPUT!!");
+    $nfile=$ini_array['percorsi']['output'].$ini_array['Parametri']['NomeOut'].date('m-d-Y_hia').'.csv';
+    $tmpfile=fopen($nfile,"w") or die("NON POSSO CREARE IL FILE DI OUTPUT!! COntrollare cartella e permessi!! ".$ini_array['percorsi']['output'].'Sistemi_Roma_'.date('m-d-Y_hia').'.csv');
     fwrite($tmpfile,$rows);
     fclose($tmpfile);
+    $webf=fopen($ini_array['Parametri']['NomeOut'].date('m-d-Y_hia').'.csv',"w")or
+     die("NON POSSO CREARE IL FILE DI OUTPUTPER IL DOWNLOAD!! COntrollare cartella e permessi!! ");
+    fwrite($webf,$rows);
+    
 if (strlen($rows)>10){
 
     return $nfile;

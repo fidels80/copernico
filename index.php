@@ -15,13 +15,13 @@ $ls= new ls();
 
 
 <table style="height: 94px; margin-left: auto; margin-right: auto;" 
-border="1" width="311" cellspacing="10" cellpadding="10">
+border="1" width="800" cellspacing="10" cellpadding="10">
 <tbody>
 <tr style="height: 116.188px;">
 <td style="width: 301px; height: 116.188;">
 <p style="text-align: center;"><img src="./img/logo.png" alt="logo" width="110%" height="110%" /></p>
 </td>
-<td style="width: 301px; height: 116.188px;" rowspan="6">File da elaborare <br>
+<td style="width: 501px; height: 116.188px;" rowspan="6">File da elaborare <br>
 <?php $ris=($ls->elefile(1));
 
 foreach($ris as $r){
@@ -50,13 +50,13 @@ echo $r.'<br>';
 </tr>
 <tr style="height: 18px;">
 <td style="width: 301px; height: 18px;">&nbsp;</td>
-</tr>
+</tr><!---
 <tr style="height: 21px;">
 <td style="width: 301px; height: 21px;"><input name="submit" type="submit" value="scarica da SFTP" /></td>
 </tr>
 <tr style="height: 18px;">
 <td style="width: 301px; height: 18px;">&nbsp;</td>
-</tr>
+</tr>--->
 <tr style="height: 39px;">
 <td style="width: 301px; height: 39px;"><br />
 <form enctype="multipart/form-data" action="elab.php" method="post">
@@ -66,13 +66,6 @@ echo $r.'<br>';
 </tr>
 </tbody>
 </table>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<!--?php 
-include('.\include\ls.php');
-include('.\include\pb.php');
-
-?-->
 <p><br /><br /></p>
 </body>
 </html>
