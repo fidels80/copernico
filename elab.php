@@ -22,7 +22,9 @@ border="1" width="311" cellspacing="10" cellpadding="10">
 <tr style="height: 116.188px;">
 <td style="width: 301px; height: 116.188;">
 Avvio Conversione&hellip;<br />
+<a href="./index.php">
 <img src="./img/logo.png" alt="logo" width="110%" height="110%" align="center"/>
+</a>
 EOT
 ;
 echo '<div style="width: 300px;">';
@@ -49,7 +51,7 @@ echo 	basename($t).'<br>';
 rimosso che non si riesce a trovare un xsd valido per sto nso....
 $ls->valfile(basename($t));
 */
-$riga=$riga. $ls->processafile(basename($t),$contaid);
+$riga=$riga. $ls->processafile_Copernico(basename($t),$contaid);
 //	echo basename($t).'<br>'.round($i,2).'%<br>';
 $p->setProgressBarProgress($i * 100 / $size);
 	usleep(1000000 * 0.1);
@@ -65,11 +67,13 @@ echo
 <table style="height: 94px; margin-left: auto; margin-right: auto;" 
 border="1" width="311" cellspacing="10" cellpadding="10">
 <tbody><TD><BR><H1>
-Terminato</h1><br/>
+<a href="./index.php">Terminato</a></h1><br/>
 </td></tbody></table>
 EOT;
  
+//echo $riga;
 
+$ls->creafile($riga);
 //$eleb=($ls->elefile(1));
 //$eleb2=($ls->elefile(2));
 //var_dump($eleb);

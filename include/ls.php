@@ -111,7 +111,7 @@ $directory = new DirectoryIterator(dirname(__FILE__));
 
 
 
-function processafile($file,$ind=null){
+function processafile_Copernico($file,$ind=null){
     $f=$file;
      
     ((is_null($ind)==true ) ? $ind=1 : $ind) ;
@@ -132,42 +132,40 @@ function processafile($file,$ind=null){
     $subnest = ($data->Order->Children("cac", TRUE)->OrderLine);
  
 if (get_object_vars($subnest) <> false || count($subnest)<>0   ){
-
- 
-  
    $row="";
-   echo "TES";
+  // echo "TES";
    $row= "TES";
     try {   
- 
 $dt1=     strtotime($data->Order->Children("cbc", TRUE)->IssueDate);
 $dt=date("d/m/Y",$dt1);
-    echo "|".$dt;
-    echo "|".$ind;
+ //   echo "|".$dt;
+ //   echo "|".$ind;
     
     $row=$row."|".$dt."|".$ind."|".$data->Order->Children("cac", TRUE)->BuyerCustomerParty->Children("cac", TRUE)->Party
     ->Children("cac", TRUE)->PartyTaxScheme->Children("cbc", TRUE)->CompanyID .
     "|"   .$data->Order->Children("cbc", TRUE)->IssueDate.
     "|".$data->Order->Children("cbc", TRUE)->ID."||||".PHP_EOL;
-    echo "|".$data->Order->Children("cac", TRUE)->BuyerCustomerParty->Children("cac", TRUE)->Party
-    ->Children("cac", TRUE)->PartyTaxScheme->Children("cbc", TRUE)->CompanyID;
-     echo "|"   .$data->Order->Children("cbc", TRUE)->IssueDate;
-     echo "|".$data->Order->Children("cbc", TRUE)->ID."||||".'<br>';
+   // echo "|".$data->Order->Children("cac", TRUE)->BuyerCustomerParty->Children("cac", TRUE)->Party
+   // ->Children("cac", TRUE)->PartyTaxScheme->Children("cbc", TRUE)->CompanyID;
+    // echo "|"   .$data->Order->Children("cbc", TRUE)->IssueDate;
+    // echo "|".$data->Order->Children("cbc", TRUE)->ID."||||".'<br>';
     foreach ($data->Order->Children("cac", TRUE)->OrderLine as $line) {
-echo "RIG"."|"   .$dt."|{$ind}||||";
-echo  $line->Children("cac",true)->LineItem->children("cac",true)->Item->children("cac",true)->BuyersItemIdentification->
-children("cbc",true)->ID."||";
-echo  $line->Children("cac",true)->LineItem->children("cbc",true)->Quantity;
+//echo "RIG"."|"   .$dt."|{$ind}||||";
+//echo  $line->Children("cac",true)->LineItem->children("cac",true)->Item->children("cac",true)->BuyersItemIdentification->
+//children("cbc",true)->ID."||";
+//echo  $line->Children("cac",true)->LineItem->children("cbc",true)->Quantity;
 
-echo  "|".$line->Children("cac",true)->LineItem->children("cac",true)->Price->children("cbc",true)->PriceAmount;
+//echo  "|".$line->Children("cac",true)->LineItem->children("cac",true)->Price->children("cbc",true)->PriceAmount;
 
-$row="RIG"."|"   .$dt."|{$ind}||||".
+
+
+$row=$row."RIG"."|"   .$dt."|{$ind}||||".
 $line->Children("cac",true)->LineItem->children("cac",true)->Item->children("cac",true)->BuyersItemIdentification->
 children("cbc",true)->ID."||".
 $line->Children("cac",true)->LineItem->children("cbc",true)->Quantity.
 "|".$line->Children("cac",true)->LineItem->children("cac",true)->Price->children("cbc",true)->PriceAmount.
 PHP_EOL;
-echo '<br>';
+//echo '<br>';
 
     }
 }
@@ -178,7 +176,7 @@ catch(Exception $var) {
   $di =str_replace('include','',$directory->getPath());
     $xml=$di.'toelab\\'.(basename($f));
   copy($xml, $di.'procfiles\\'.(basename($f)));
-
+  unlink($xml);
 return $row;
 }
 
@@ -192,8 +190,18 @@ else{
 
 
 
-}
 
+
+
+function creafile($rows){
+
+    $tmpfile=fopen('Sistemi_Roma_'.date('m-d-Y_hia').'.csv',"w") or die("NON POSSO CREARE IL FILE DI OUTPUT!!");
+    fwrite($tmpfile,$rows);
+    fclose($tmpfile);
+
+
+}
+}
 ?>
 
 
