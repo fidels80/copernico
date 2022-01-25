@@ -47,7 +47,7 @@ if (count($mimmo)==1)
 {
 $i=100;
 }
-echo 	basename($t).'<br>';
+echo 	basename($t). PHP_EOL;;
 
 /*
 rimosso che non si riesce a trovare un xsd valido per sto nso....
@@ -60,7 +60,7 @@ $riga=$riga. $ls->processafile_Copernico(basename($t),$contaid);
 	$i=$i+$conta;
 	$contaid=$contaid+1;
 }
-$p->setProgressBarProgress(100);
+//$p->setProgressBarProgress(100);
 
 /*
 echo 
@@ -77,6 +77,11 @@ EOT;
 //echo $riga;
 
 $f=$ls->creafile($riga);
+if (strlen($f)>3){
+
+	echo "operazione riuscita". PHP_EOL;;
+}
+
 
 /*if (strlen($f)>3){
 echo <<<EOT

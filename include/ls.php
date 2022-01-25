@@ -66,7 +66,7 @@ $ini_array=parse_ini_file("config.ini", true /* will scope sectionally */);
     
 }
 
-
+/*da testare che valfile che non si riesce a rimediare un xsd del nso da nessuna parte */
 function valfile($file){
 $ini_array=parse_ini_file("config.ini", true /* will scope sectionally */);
 
@@ -107,9 +107,6 @@ $directory = new DirectoryIterator(dirname(__FILE__));
 
     $rxml = new DOMDocument();
     $rxml->load($xml);
-//echo $doc->saveXML();
-//return ( $rxml->saveXML());
-
 
     if (!$rxml->schemaValidate($xsd)) {
         // print '<b>DOMDocument::schemaValidate() Generated Errors!</b>';
