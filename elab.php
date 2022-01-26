@@ -230,6 +230,8 @@ $f=$ls->creafile($riga);
 if (strlen($f)>3){
 
 	$t=basename($f);
+
+  if ($ini_array['Parametri']['wbout']==1){
 echo <<<EOT
 <table style="height: 94px; margin-left: auto; margin-right: auto;" 
 border="1" width="311" cellspacing="10" cellpadding="10">
@@ -237,6 +239,17 @@ border="1" width="311" cellspacing="10" cellpadding="10">
 <a href="./{$t}">Scarica FIle Elaborato</a></h1><br/>
 </td></tbody></table>
 EOT;
+  }
+  else{
+
+    echo <<<EOT
+    <table style="height: 94px; margin-left: auto; margin-right: auto;" 
+    border="1" width="311" cellspacing="10" cellpadding="10">
+    <tbody><TD><BR><H1>FIle Elaborato e disponibile in:<br> {$ini_array['percorsi']['output']}
+    </td></tbody></table>
+    EOT;
+
+  }
 }
 //$eleb=($ls->elefile(1));
 //$eleb2=($ls->elefile(2));
