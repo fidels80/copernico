@@ -40,7 +40,7 @@ echo $r.'<br>';
   <form enctype="multipart/form-data" action="upload.php" method="post">
         <div>
            
-            <input type="file" id="file" name="file"/>
+            <input type="file" id="file" name="file" accept="text/xml"/>
         </div>
         <div>
             <button type="submit">Upload</button>

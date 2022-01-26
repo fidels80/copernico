@@ -10,9 +10,14 @@ function elefile($dir){
 
 
 $ini_array=parse_ini_file("config.ini", true /* will scope sectionally */);
+ 
+if (!is_dir($ini_array['percorsi']['oripath'])){
+ECHO "<H1>attenzione la directory di origine gli nso non esiste controllare il config.ini voce oripath</h1>";
+}
+
 //var_dump($ini_array);
 $oripath= glob($ini_array['percorsi']['oripath'].'*.xml');
-
+//var_dump($oripath);
 //var_dump($ini_array['percorsi']['oripath']);
 
 $directory = new DirectoryIterator(dirname(__FILE__));
@@ -20,9 +25,14 @@ $di =str_replace('include','',$directory->getPath());
 
 
     foreach ($oripath as $f){
-    if(!file_exists($di =str_replace('include','',$directory->getPath())))
+   // echo $di.$ini_array['percorsi']['procfiles'].(basename($f));
+   // var_dump(file_exists($di.$ini_array['percorsi']['procfiles'].(basename($f))));
+    if(!file_exists($di.$ini_array['percorsi']['procfiles'].(basename($f))))
+     //|| !file_exists($di.$ini_array['percorsi'][''].(basename($f))) )
     {
         copy($f, $di.$ini_array['percorsi']['toelab'].(basename($f)));
+    } else {
+     //   echo "gia presente il file ".(basename($f)).'<br>';
     } 
     }
 
@@ -31,12 +41,14 @@ $di =str_replace('include','',$directory->getPath());
     $res=[];
     if ($dir==1){
     $lpath = glob($di.$ini_array['percorsi']['toelab'].'*.xml');
-
+//var_dump($lpath);
+  //  echo 'ad';
     foreach ($lpath as $f) {
      //   echo   (basename($f)) . '<br>';
       array_push($res,basename($f));
     }
 }else {
+ //   echo 'as';
     $lpath = glob($di.$ini_array['percorsi']['procfiles'].'*.xml');
 
     foreach ($lpath as $f) {
@@ -113,8 +125,8 @@ $directory = new DirectoryIterator(dirname(__FILE__));
         return libxml_get_errors();
     } else {
 
-        echo $file.'fatttttooooooooooooooooo';
-        return $file.'fatttttooooooooooooooooo';;
+        echo $file.'fatto';
+        return $file.'fatto';;
     }
 }
 
@@ -188,6 +200,7 @@ catch(Exception $var) {
   $di =str_replace('include','',$directory->getPath());
     $xml=$di.$ini_array['percorsi']['toelab'].(basename($f));
   copy($xml, $di.$ini_array['percorsi']['procfiles'].(basename($f)));
+  echo $xml;
   unlink($xml);
 return $row;
 }
