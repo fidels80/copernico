@@ -25,14 +25,12 @@ $di =str_replace('include','',$directory->getPath());
 
 
     foreach ($oripath as $f){
-   // echo $di.$ini_array['percorsi']['procfiles'].(basename($f));
-   // var_dump(file_exists($di.$ini_array['percorsi']['procfiles'].(basename($f))));
     if(!file_exists($di.$ini_array['percorsi']['procfiles'].(basename($f))))
-     //|| !file_exists($di.$ini_array['percorsi'][''].(basename($f))) )
     {
         copy($f, $di.$ini_array['percorsi']['toelab'].(basename($f)));
-    } else {
-     //   echo "gia presente il file ".(basename($f)).'<br>';
+    } else
+    {
+    
     } 
     }
 
@@ -41,18 +39,13 @@ $di =str_replace('include','',$directory->getPath());
     $res=[];
     if ($dir==1){
     $lpath = glob($di.$ini_array['percorsi']['toelab'].$ext);
-//var_dump($lpath);
-  //  echo 'ad';
     foreach ($lpath as $f) {
-     //   echo   (basename($f)) . '<br>';
       array_push($res,basename($f));
     }
 }else {
- //   echo 'as';
     $lpath = glob($di.$ini_array['percorsi']['procfiles'].$ext);
 
     foreach ($lpath as $f) {
-   //    echo   ( ($f)) . '<br>';
    array_push($res,basename($f));
 }
 }
@@ -70,7 +63,6 @@ $ext= $ini_array['Parametri']['estensione'];
     $di =str_replace('include','',$directory->getPath());
     $lpath = glob($di.$ini_array['percorsi']['toelab'].$ext);
     foreach ($lpath as $f) {
-   // echo $f;
     
     }
 
@@ -157,31 +149,16 @@ $ext= $ini_array['Parametri']['estensione'];
  
 if (get_object_vars($subnest) <> false || count($subnest)<>0   ){
    $row="";
-  // echo "TES";
    $row= "TES";
     try {   
 $dt1=     strtotime($data->Order->Children("cbc", TRUE)->IssueDate);
 $dt=date("d/m/Y",$dt1);
- //   echo "|".$dt;
- //   echo "|".$ind;
     
     $row=$row."|".$dt."|".$ind."|".$data->Order->Children("cac", TRUE)->BuyerCustomerParty->Children("cac", TRUE)->Party
     ->Children("cac", TRUE)->PartyTaxScheme->Children("cbc", TRUE)->CompanyID .
     "|"   .$data->Order->Children("cbc", TRUE)->IssueDate.
     "|".$data->Order->Children("cbc", TRUE)->ID."||||".PHP_EOL;
-   // echo "|".$data->Order->Children("cac", TRUE)->BuyerCustomerParty->Children("cac", TRUE)->Party
-   // ->Children("cac", TRUE)->PartyTaxScheme->Children("cbc", TRUE)->CompanyID;
-    // echo "|"   .$data->Order->Children("cbc", TRUE)->IssueDate;
-    // echo "|".$data->Order->Children("cbc", TRUE)->ID."||||".'<br>';
     foreach ($data->Order->Children("cac", TRUE)->OrderLine as $line) {
-//echo "RIG"."|"   .$dt."|{$ind}||||";
-//echo  $line->Children("cac",true)->LineItem->children("cac",true)->Item->children("cac",true)->BuyersItemIdentification->
-//children("cbc",true)->ID."||";
-//echo  $line->Children("cac",true)->LineItem->children("cbc",true)->Quantity;
-
-//echo  "|".$line->Children("cac",true)->LineItem->children("cac",true)->Price->children("cbc",true)->PriceAmount;
-
-
 
 $row=$row."RIG"."|"   .$dt."|{$ind}||||".
 $line->Children("cac",true)->LineItem->children("cac",true)->Item->children("cac",true)->BuyersItemIdentification->
@@ -189,7 +166,6 @@ children("cbc",true)->ID."||".
 $line->Children("cac",true)->LineItem->children("cbc",true)->Quantity.
 "|".$line->Children("cac",true)->LineItem->children("cac",true)->Price->children("cbc",true)->PriceAmount.
 PHP_EOL;
-//echo '<br>';
 
     }
 }
