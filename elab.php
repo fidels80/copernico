@@ -200,7 +200,7 @@ echo 	basename($t).'<br></td></tr>';
 rimosso che non si riesce a trovare un xsd valido per sto nso....
 $ls->valfile(basename($t));
 */
-$riga=$riga. $ls->processafile_Copernico(basename($t),$contaid);
+$riga=$riga. $ls->processafile_xml(basename($t),$contaid);
 //	echo basename($t).'<br>'.round($i,2).'%<br>';
 $p->setProgressBarProgress($i * 100 / $size);
 	usleep(1000000 * 0.1);
