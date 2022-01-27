@@ -176,7 +176,7 @@ catch(Exception $var) {
   $di =str_replace('include','',$directory->getPath());
     $xml=$di.$ini_array['percorsi']['toelab'].(basename($f));
   copy($xml, $di.$ini_array['percorsi']['procfiles'].(basename($f)));
-  echo $xml;
+  //echo $xml;
   unlink($xml);
 return $row;
 }
