@@ -10,13 +10,13 @@ function elefile($dir){
 
 
 $ini_array=parse_ini_file("config.ini", true /* will scope sectionally */);
- 
+$ext= $ini_array['Parametri']['estensione'];
 if (!is_dir($ini_array['percorsi']['oripath'])){
 ECHO "<H1>attenzione la directory di origine gli nso non esiste controllare il config.ini voce oripath</h1>";
 }
 
 //var_dump($ini_array);
-$oripath= glob($ini_array['percorsi']['oripath'].'*.xml');
+$oripath= glob($ini_array['percorsi']['oripath'].$ext);
 //var_dump($oripath);
 //var_dump($ini_array['percorsi']['oripath']);
 
@@ -40,7 +40,7 @@ $di =str_replace('include','',$directory->getPath());
 
     $res=[];
     if ($dir==1){
-    $lpath = glob($di.$ini_array['percorsi']['toelab'].'*.xml');
+    $lpath = glob($di.$ini_array['percorsi']['toelab'].$ext);
 //var_dump($lpath);
   //  echo 'ad';
     foreach ($lpath as $f) {
@@ -49,7 +49,7 @@ $di =str_replace('include','',$directory->getPath());
     }
 }else {
  //   echo 'as';
-    $lpath = glob($di.$ini_array['percorsi']['procfiles'].'*.xml');
+    $lpath = glob($di.$ini_array['percorsi']['procfiles'].$ext);
 
     foreach ($lpath as $f) {
    //    echo   ( ($f)) . '<br>';
@@ -65,10 +65,10 @@ return $res;
 
 function localelab(){
 $ini_array=parse_ini_file("config.ini", true /* will scope sectionally */);
-
+$ext= $ini_array['Parametri']['estensione'];
     $directory = new DirectoryIterator(dirname(__FILE__));
     $di =str_replace('include','',$directory->getPath());
-    $lpath = glob($di.$ini_array['percorsi']['toelab'].'*.xml');
+    $lpath = glob($di.$ini_array['percorsi']['toelab'].$ext);
     foreach ($lpath as $f) {
    // echo $f;
     
@@ -135,7 +135,7 @@ $directory = new DirectoryIterator(dirname(__FILE__));
 
 function processafile_Copernico($file,$ind=null){
 $ini_array=parse_ini_file("config.ini", true /* will scope sectionally */);
-
+$ext= $ini_array['Parametri']['estensione'];
     $f=$file;
      
     ((is_null($ind)==true ) ? $ind=1 : $ind) ;

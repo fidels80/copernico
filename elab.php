@@ -11,11 +11,11 @@ $eleb=($ls->elefile(1));
 $eleb2=($ls->elefile(2));
 //var_dump($eleb);
 //var_dump($eleb2);
-$mimmo=(array_diff($eleb,$eleb2));
+$elef=(array_diff($eleb,$eleb2));
 $f=0;
 $i=0;
 $size = 100;
-$conta=100/((count($mimmo)==0 )? 1 :count($mimmo));
+$conta=100/((count($elef)==0 )? 1 :count($elef));
 echo <<<EOT
 <style>
 /*the following html and body rule sets are required only if using a % width or height*/
@@ -189,8 +189,8 @@ EOT
 ;
 $contaid=1;
 $riga="";
-foreach ($mimmo as $t) {
-if (count($mimmo)==1)
+foreach ($elef as $t) {
+if (count($elef)==1)
 {
 $i=100;
 }
@@ -245,7 +245,7 @@ EOT;
     echo <<<EOT
     <table style="height: 94px; margin-left: auto; margin-right: auto;" 
     border="1" width="311" cellspacing="10" cellpadding="10">
-    <tbody><TD><BR><H1>FIle Elaborato e disponibile in:<br> {$ini_array['percorsi']['output']}
+    <tbody><TD><BR><H1>File Elaborato e disponibile in:<br> {$ini_array['percorsi']['output']}
     </td></tbody></table>
     EOT;
 
