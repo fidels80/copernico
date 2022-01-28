@@ -249,6 +249,78 @@ class ls
     {
         unlink($file);
     }
+
+
+    Function grid()
+{
+
+$ini_array = parse_ini_file("config.ini", true /* will scope sectionally */);
+$ext = $ini_array['Parametri']['estensione'];
+//$ini_array['percorsi']['procfiles'];
+$pfile=glob($ini_array['percorsi']['procfiles'] . $ext);
+
+$html= <<<EOT
+<div class="scrollingtable">
+<div>
+    <div>
+      <table>
+        <caption></caption>
+        <thead>
+          <tr>
+            <th><div label="File Elaborati"></div></th>
+			<th class="scrollbarhead"/> <!--ALWAYS ADD THIS EXTRA CELL AT END OF HEADER ROW-->
+			</tr>
+		  </thead>
+		  <tbody>
+<form action="todel()">
+          <tr><td> 
+EOT;
+foreach($pfile as $pf){
+$bspf=basename($pf);
+   $html=$html. <<<EOT
+	<label for="name">Nome File</label><br /> 
+	<input ID="{$bspf}" type="checkbox" value="{$bspf}" /> {$bspf}<br /> 
+	 
+EOT;
+
+
+}
+
+$html=$html. <<<EOT
+
+</td></tbody></table>
+</div>
+</div>
+</div><br>
+<button type="submit" value="Submit">Cancella</button></form>
+EOT;
+
+return $html;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 ?>
 
