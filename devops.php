@@ -1,3 +1,25 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+function test()
+{
+    var idSelector = function() { return this.id; };
+    var fruitsGranted = $(":checkbox:checked").map(idSelector).get() ;
+    var fruitsDenied = $(":checkbox:not(:checked)").map(idSelector).get() ;
+    
+    alert("fruitsGranted: " + fruitsGranted  );
+    console.log(fruitsGranted);
+    console.log(jQuery.type( fruitsGranted ));
+
+    $.each(fruitsGranted, function(index, value){
+        //    $("#result").append(index + ": " + value + '<br>');
+       
+    console.log(index+"|||"+value);
+    });
+
+
+ 
+}
+</script>
 <?php
 include('.\include\ls.php');
 echo <<<EOT
@@ -134,6 +156,7 @@ body {
 .scrollingtable > div > div > table > tbody > tr:nth-child(even) {background: gainsboro;} /*alternate row color*/
 .scrollingtable > div > div > table > tbody > tr > * + * {border-left: 1px solid black;} /*borders between body cells*/
 </style>
+
 EOT;
 echo "devops<br>";
 $ls= new ls();
