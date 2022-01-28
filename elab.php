@@ -149,10 +149,7 @@ body {
 .scrollingtable > div > div > table > tbody:last-of-type > tr:last-child > * {border-bottom: none;}
 .scrollingtable > div > div > table > tbody > tr:nth-child(even) {background: gainsboro;} /*alternate row color*/
 .scrollingtable > div > div > table > tbody > tr > * + * {border-left: 1px solid black;} /*borders between body cells*/
-
 </style>
-
-
 
 
 

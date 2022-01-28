@@ -66,7 +66,7 @@ class ls
         }
     }
 
-    /*da testare che valfile che non si riesce a rimediare un xsd del nso da nessuna parte */
+    /*da finire  che per il valfile  non si riesce a rimediare un xsd del nso da nessuna parte */
     function valfile($file)
     {
         $ini_array = parse_ini_file("config.ini", true /* will scope sectionally */);
@@ -92,11 +92,7 @@ class ls
         }*/
         } else {
             // $xsd = "/var/www/html/main/basic/xml/Schema_VFPR12.xsd";
-
-
             //../xml/Schema_DatiFattura_29052020.xsd";//sftp://root@www.anpira.it:8052/var/www/html/main/basic/xml/Schema_DatiFattura_29052020.xsd
-
-
             // $xml = '/var/www/html/main/basic/xml/ft2.xml';
             // libxml_use_internal_errors(true);
             $test = fopen($xml, "r");
@@ -108,7 +104,6 @@ class ls
 
         $rxml = new DOMDocument();
         $rxml->load($xml);
-
         if (!$rxml->schemaValidate($xsd)) {
             // print '<b>DOMDocument::schemaValidate() Generated Errors!</b>';
             return libxml_get_errors();
@@ -124,29 +119,21 @@ class ls
 
     function processafile_xml($file, $ind = null)
     {
-
         $ini_array = parse_ini_file("config.ini", true /* will scope sectionally */);
         $ext = $ini_array['Parametri']['estensione'];
         $f = $file;
-
         ((is_null($ind) == true) ? $ind = 1 : $ind);
         $directory = new DirectoryIterator(dirname(__FILE__));
         $di = str_replace('include', '', $directory->getPath());
-
         $file = $di . $ini_array['percorsi']['toelab'] . (basename($f));
         ini_set('error_reporting', E_ALL ^ E_WARNING);
-
         $data = new SimpleXmlElement($file, null, true);
         json_encode($data);
         $namespaces = $data->getNamespaces(true);
-
-
         $new = ($data->Order);
         $con = json_encode($new);
-
         $subnest = ($data->Order->Children("cac", TRUE)->OrderLine);
         $subnest_covid = ($data->Children("ns8", TRUE)->Order->Children("ns2", TRUE)->OrderLine);
-
         if (get_object_vars($subnest) <> false || count($subnest) <> 0) {
             $row = "";
             $row = "TES";
@@ -160,7 +147,6 @@ class ls
                 $row = $row . "|"   . $dt;
                 $row = $row .   "|" . $data->Order->Children("cbc", TRUE)->ID . "||||" . PHP_EOL;
                 foreach ($data->Order->Children("cac", TRUE)->OrderLine as $line) {
-
                     $row = $row . "RIG" . "|"   . $dt . "|{$ind}||||";
                     $row = $row . $line->Children("cac", true)->LineItem->children("cac", true)->Item->children("cac", true)->BuyersItemIdentification->children("cbc", true)->ID . "||";
                     $row = $row . $line->Children("cac", true)->LineItem->children("cbc", true)->Quantity;
@@ -170,11 +156,6 @@ class ls
             } catch (Exception $var) {
                 print $var->getMessage();
             }
-
-
-
-
-
             $di = str_replace('include', '', $directory->getPath());
             $xml = $di . $ini_array['percorsi']['toelab'] . (basename($f));
             copy($xml, $di . $ini_array['percorsi']['procfiles'] . (basename($f)));
@@ -185,18 +166,13 @@ class ls
          //   echo '<tr><td> Ordine covid</tr></td>';
             $tmp_xml = file_get_contents($file); //fread(fopen($file,"r"),$file);
             // var_dump($testo);
-            $tmp_file = fopen("_" . basename($file), w);
+            $tmp_file = fopen("_" . basename($file), "w");
             fwrite($tmp_file, $tmp_xml);
-
             $tmp_xml = str_replace("ns8:", "", $tmp_xml);
             $tmp_xml = str_replace("ns2:", "", $tmp_xml);
-
-
             $tmp_file = fopen("_" . basename($file), "w");
             fwrite($tmp_file, $tmp_xml);
             $data =  new SimpleXmlElement("_" . basename($file), null, true);
-
-
             try {
                 $row = "";
                 $row = "TES";
@@ -211,7 +187,7 @@ class ls
                 foreach ($data->Order->OrderLine as $line) {
 
                     $row = $row . "RIG" . "|"   . $dt . "|{$ind}||||";
-                    $row = $row . $line->LineItem->Item->BuyersItemIdentification->ID . "||";
+                    $row = $row . $line->LineItem->Item->SellersItemIdentification->ID . "||";
                     $row = $row . $line->LineItem->Quantity;
                     $row = $row . "|" . $line->LineItem->Price->PriceAmount . PHP_EOL;
                 }
@@ -248,8 +224,6 @@ class ls
             or   $this->extremesave($rows);
         /*die("NON POSSO CREARE IL FILE DI OUTPUT!! COntrollare cartella e permessi!! "
     .$ini_array['percorsi']['output'].'Sistemi_Roma_'.date('m-d-Y_hia').'.csv'
-    
-
 );*/
         fwrite($tmpfile, $rows);
         fclose($tmpfile);
