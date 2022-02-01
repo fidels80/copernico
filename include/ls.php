@@ -203,8 +203,7 @@ class ls
                 print $var->getMessage();
             }
         } 
-        elseif(0==1
-           // get_object_vars($subnest_order4) <> false || count($subnest_order4) <> 0
+        elseif( get_object_vars($subnest_order4) <> false || count($subnest_order4) <> 0
                 ){
             $tmp_xml = file_get_contents($file); //fread(fopen($file,"r"),$file);
             // var_dump($testo);
