@@ -418,13 +418,6 @@ return $html;
 
 
 
-function xml_child_exists($xml, $childpath)
-{
-    $result = $xml->xpath($childpath); 
-    return (bool) (count($result));
-}
-
-
 
 
 
