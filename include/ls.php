@@ -309,8 +309,9 @@ foreach ($ns as $val){
                 return $row;
             } catch (Exception $var) {
                 print $var->getMessage();
+                echo "<H1>il File {$f} Prodotto potrebbe non essere CORRETTO!!!!</BR></H1>";
             }
-            echo "<H1>il File {$f} Prodotto potrebbe non essere CORRETTO!!!!</BR></H1>";
+            
         }
     }
 
