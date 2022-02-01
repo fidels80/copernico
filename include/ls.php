@@ -113,6 +113,8 @@ class ls
     function processafile_xml($file, $ind = null)
     {
         $ini_array = parse_ini_file("config.ini", true /* will scope sectionally */);
+    $ini_xml = parse_ini_file("xml.ini", true /* will scope sectionally */);
+
         $ext = $ini_array['Parametri']['estensione'];
         $f = $file;
         ((is_null($ind) == true) ? $ind = 1 : $ind);
@@ -127,6 +129,9 @@ class ls
         $con = json_encode($new);
         $subnest = ($data->Order->Children("cac", TRUE)->OrderLine);
         $subnest_covid = ($data->Children("ns8", TRUE)->Order->Children("ns2", TRUE)->OrderLine);
+        $subnest_order4 =        ($data->Children("ns4", TRUE)->Order->Children("ns3", TRUE)->OrderLine);
+
+
         if (get_object_vars($subnest) <> false || count($subnest) <> 0) {
             $row = "";
             $row = "TES";
@@ -197,8 +202,116 @@ class ls
             } catch (Exception $var) {
                 print $var->getMessage();
             }
-        } else {
-            echo "<H1>il File {$f} É   DANNEGGIATO  O NON CORRETTO!!!!</BR></H1>";
+        } 
+        elseif(0==1
+           // get_object_vars($subnest_order4) <> false || count($subnest_order4) <> 0
+                ){
+            $tmp_xml = file_get_contents($file); //fread(fopen($file,"r"),$file);
+            // var_dump($testo);
+            $tmp_file = fopen("_" . basename($file), "w");
+            fwrite($tmp_file, $tmp_xml);
+            $tmp_xml = str_replace("ns4:", "", $tmp_xml);
+            $tmp_xml = str_replace("ns3:", "", $tmp_xml);
+            $tmp_file = fopen("_" . basename($file), "w");
+            fwrite($tmp_file, $tmp_xml);
+            $data =  new SimpleXmlElement("_" . basename($file), null, true);
+            try {
+                $row = "";
+                $row = "TES";
+                $dt1 =     strtotime($data->Order->IssueDate);
+                $dt = date("d/m/Y", $dt1);
+
+                $row = $row . "|" . $dt . "|" . $ind . "|" . $data->Order->BuyerCustomerParty->Party
+                    ->PartyTaxScheme->CompanyID;
+                $row = $row . "|"   . $dt;
+                $row = $row .   "|" . $data->Order->ID . "||||" . PHP_EOL;
+                //   echo '<tr><td>' . $row . '</tr></td>';
+                foreach ($data->Order->OrderLine as $line) {
+
+                    $row = $row . "RIG" . "|"   . $dt . "|{$ind}||||";
+                    $row = $row . $line->LineItem->Item->SellersItemIdentification->ID . "||";
+                    $row = $row . $line->LineItem->Quantity;
+                    $row = $row . "|" . $line->LineItem->Price->PriceAmount . PHP_EOL;
+                }
+
+
+
+                $di = str_replace('include', '', $directory->getPath());
+                $xml = $di . $ini_array['percorsi']['toelab'] . (basename($f));
+                copy($xml, $di . $ini_array['percorsi']['procfiles'] . (basename($f)));
+           //     echo $row;
+                unlink($xml);
+                unlink("_" . basename($file));
+                return $row;
+            } catch (Exception $var) {
+                print $var->getMessage();
+            }
+
+
+        }
+        else {
+       
+            $tmp_xml = file_get_contents($file); //fread(fopen($file,"r"),$file);
+            // var_dump($testo);
+            $tmp_file = fopen("_" . basename($file), "w");
+            fwrite($tmp_file, $tmp_xml);
+/*            $tmp_xml = str_replace("ns1:", "", $tmp_xml);
+            $tmp_xml = str_replace("ns2:", "", $tmp_xml);
+            $tmp_xml = str_replace("ns3:", "", $tmp_xml);
+           $tmp_xml = str_replace("ns4:", "", $tmp_xml);
+            $tmp_xml = str_replace("ns5:", "", $tmp_xml);
+            $tmp_xml = str_replace("ns6:", "", $tmp_xml);
+            $tmp_xml = str_replace("ns7:", "", $tmp_xml);
+            $tmp_xml = str_replace("ns8:", "", $tmp_xml);
+            $tmp_xml = str_replace("ns9:", "", $tmp_xml);
+
+*/
+$ns=$ini_xml['NS']['name_space'];
+//var_dump($ns);
+foreach ($ns as $val){
+  //  echo "<br>".$val;
+    $tmp_xml = str_replace($val, "", $tmp_xml);
+   // $i=$i+1;
+
+}
+
+        //    $tmp_xml = preg_replace("/<.*(xmlns *= *[\"'].[^\"']*[\"']).[^>]*>/i", "", $tmp_xml); 
+           
+            $tmp_file = fopen("_" . basename($file), "w");
+            fwrite($tmp_file, $tmp_xml);
+            $data =  new SimpleXmlElement("_" . basename($file), null, true);
+            try {
+                $row = "";
+                $row = "TES";
+                $dt1 =     strtotime($data->Order->IssueDate);
+                $dt = date("d/m/Y", $dt1);
+
+                $row = $row . "|" . $dt . "|" . $ind . "|" . $data->Order->BuyerCustomerParty->Party
+                    ->PartyTaxScheme->CompanyID;
+                $row = $row . "|"   . $dt;
+                $row = $row .   "|" . $data->Order->ID . "||||" . PHP_EOL;
+                //   echo '<tr><td>' . $row . '</tr></td>';
+                foreach ($data->Order->OrderLine as $line) {
+
+                    $row = $row . "RIG" . "|"   . $dt . "|{$ind}||||";
+                    $row = $row . $line->LineItem->Item->SellersItemIdentification->ID . "||";
+                    $row = $row . $line->LineItem->Quantity;
+                    $row = $row . "|" . $line->LineItem->Price->PriceAmount . PHP_EOL;
+                }
+
+
+
+                $di = str_replace('include', '', $directory->getPath());
+                $xml = $di . $ini_array['percorsi']['toelab'] . (basename($f));
+                copy($xml, $di . $ini_array['percorsi']['procfiles'] . (basename($f)));
+           //     echo $row;
+                unlink($xml);
+                unlink("_" . basename($file));
+                return $row;
+            } catch (Exception $var) {
+                print $var->getMessage();
+            }
+            echo "<H1>il File {$f} Prodotto potrebbe non essere CORRETTO!!!!</BR></H1>";
         }
     }
 
