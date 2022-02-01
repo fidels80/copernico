@@ -2,20 +2,20 @@
 include('.\include\ls.php');
 include('.\include\pb.php');
 $ini_array = parse_ini_file("config.ini", true /* will scope sectionally */);
-$ls= new ls();
+$ls = new ls();
 $ls->localelab();
 $content = "";
 $p = new ProgressBar();
 
-$eleb=($ls->elefile(1));
-$eleb2=($ls->elefile(2));
+$eleb = ($ls->elefile(1));
+$eleb2 = ($ls->elefile(2));
 //var_dump($eleb);
 //var_dump($eleb2);
-$elef=(array_diff($eleb,$eleb2));
-$f=0;
-$i=0;
+$elef = (array_diff($eleb, $eleb2));
+$f = 0;
+$i = 0;
 $size = 100;
-$conta=100/((count($elef)==0 )? 1 :count($elef));
+$conta = 100 / ((count($elef) == 0) ? 1 : count($elef));
 echo <<<EOT
 <style>
 /*the following html and body rule sets are required only if using a % width or height*/
@@ -163,8 +163,7 @@ Avvio Conversione&hellip;<br />
 <a href="./index.php">
 <img src="./img/logo.png" alt="logo" width="110%" height="110%" align="center"/>
 </a>
-EOT
-;
+EOT;
 echo '<div style="width: 300px;">';
 $p->render();
 echo '</div></tbody></table>';
@@ -176,39 +175,39 @@ echo <<<EOT
         <caption></caption>
         <thead>
           <tr>
-            <th><div label="File in Elaborazione"></div></th>
+            <th><div label="Files in Elaborazione"></div></th>
 			<th class="scrollbarhead"/> <!--ALWAYS ADD THIS EXTRA CELL AT END OF HEADER ROW-->
 			</tr>
 		  </thead>
 		  <tbody>
 <tr><td> 
-EOT
-;
-$contaid=1;
-$riga="";
+EOT;
+$contaid = 1;
+$riga = "";
 foreach ($elef as $t) {
-if (count($elef)==1)
-{
-$i=100;
-}
-echo 	basename($t).'<br></td></tr>';
+  if (count($elef) == 1) {
+    $i = 100;
+  }
+  echo   basename($t) . '<br></td></tr><tr><td>';
 
-/*
+  /*
 rimosso che non si riesce a trovare un xsd valido per sto nso....
 $ls->valfile(basename($t));
 */
-$riga=$riga. $ls->processafile_xml(basename($t),$contaid);
-//	echo basename($t).'<br>'.round($i,2).'%<br>';
-$p->setProgressBarProgress($i * 100 / $size);
-	usleep(1000000 * 0.1);
-	$i=$i+$conta;
-	$contaid=$contaid+1;
+  $riga = $riga . $ls->processafile_xml(basename($t), $contaid);
+  //	echo basename($t).'<br>'.round($i,2).'%<br>';
+  $p->setProgressBarProgress($i * 100 / $size);
+  usleep(1000000 * 0.1);
+  $i = $i + $conta;
+  $contaid = $contaid + 1;
 }
 $p->setProgressBarProgress(100);
 
-echo 
+echo
 <<<EOT
-</td></tbody></table>
+
+
+</td></TR></tbody></table>
 </div>
 </div>
 </div>
@@ -219,25 +218,24 @@ border="1" width="311" cellspacing="10" cellpadding="10">
 <a href="./index.php">Terminato</a></h1><br/>
 </td></tbody></table>
 EOT;
- 
+
 //echo $riga;
 
-$f=$ls->creafile($riga);
+$f = $ls->creafile($riga);
 
-if (strlen($f)>3){
+if (strlen($f) > 3) {
 
-	$t=basename($f);
+  $t = basename($f);
 
-  if ($ini_array['Parametri']['wbout']==1){
-echo <<<EOT
+  if ($ini_array['Parametri']['wbout'] == 1) {
+    echo <<<EOT
 <table style="height: 94px; margin-left: auto; margin-right: auto;" 
 border="1" width="311" cellspacing="10" cellpadding="10">
 <tbody><TD><BR><H1>
 <a href="./{$t}">Scarica FIle Elaborato</a></h1><br/>
 </td></tbody></table>
 EOT;
-  }
-  else{
+  } else {
 
     echo <<<EOT
     <table style="height: 94px; margin-left: auto; margin-right: auto;" 
@@ -245,7 +243,6 @@ EOT;
     <tbody><TD><BR><H1>File Elaborato e disponibile in:<br> {$ini_array['percorsi']['output']}
     </td></tbody></table>
     EOT;
-
   }
 }
 //$eleb=($ls->elefile(1));

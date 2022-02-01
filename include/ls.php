@@ -113,9 +113,9 @@ class ls
     function processafile_xml($file, $ind = null)
     {
 
-        
+
         $ini_array = parse_ini_file("config.ini", true /* will scope sectionally */);
-    $ini_xml = parse_ini_file("xml.ini", true /* will scope sectionally */);
+        $ini_xml = parse_ini_file("xml.ini", true /* will scope sectionally */);
 
         $ext = $ini_array['Parametri']['estensione'];
         $f = $file;
@@ -163,7 +163,7 @@ class ls
             unlink($xml);
             return $row;
         } elseif (get_object_vars($subnest_covid) <> false || count($subnest_covid) <> 0) {
-         //   echo '<tr><td> Ordine covid</tr></td>';
+            //   echo '<tr><td> Ordine covid</tr></td>';
             $tmp_xml = file_get_contents($file); //fread(fopen($file,"r"),$file);
             // var_dump($testo);
             $tmp_file = fopen("_" . basename($file), "w");
@@ -197,17 +197,16 @@ class ls
                 $di = str_replace('include', '', $directory->getPath());
                 $xml = $di . $ini_array['percorsi']['toelab'] . (basename($f));
                 copy($xml, $di . $ini_array['percorsi']['procfiles'] . (basename($f)));
-           //     echo $row;
+                //     echo $row;
                 unlink($xml);
                 unlink("_" . basename($file));
                 return $row;
             } catch (Exception $var) {
                 print $var->getMessage();
             }
-        } 
-        elseif( //get_object_vars($subnest_order4) <> false || count($subnest_order4) <> 0 && 
-        1==2
-                ){
+        } elseif ( //get_object_vars($subnest_order4) <> false || count($subnest_order4) <> 0 && 
+            1 == 2
+        ) {
             $tmp_xml = file_get_contents($file); //fread(fopen($file,"r"),$file);
             // var_dump($testo);
             $tmp_file = fopen("_" . basename($file), "w");
@@ -241,23 +240,20 @@ class ls
                 $di = str_replace('include', '', $directory->getPath());
                 $xml = $di . $ini_array['percorsi']['toelab'] . (basename($f));
                 copy($xml, $di . $ini_array['percorsi']['procfiles'] . (basename($f)));
-           //     echo $row;
+                //     echo $row;
                 unlink($xml);
                 unlink("_" . basename($file));
                 return $row;
             } catch (Exception $var) {
                 print $var->getMessage();
             }
+        } else {
 
-
-        }
-        else {
-       
             $tmp_xml = file_get_contents($file); //fread(fopen($file,"r"),$file);
             // var_dump($testo);
             $tmp_file = fopen("_" . basename($file), "w");
             fwrite($tmp_file, $tmp_xml);
-/*            $tmp_xml = str_replace("ns1:", "", $tmp_xml);
+            /*            $tmp_xml = str_replace("ns1:", "", $tmp_xml);
             $tmp_xml = str_replace("ns2:", "", $tmp_xml);
             $tmp_xml = str_replace("ns3:", "", $tmp_xml);
            $tmp_xml = str_replace("ns4:", "", $tmp_xml);
@@ -268,28 +264,27 @@ class ls
             $tmp_xml = str_replace("ns9:", "", $tmp_xml);
 
 */
- 
-$ns=$ini_xml['NS']['name_space'];
-//var_dump($ns);
-foreach ($ns as $val){
-  //  echo "<br>".$val;
-    $tmp_xml = str_replace($val, "", $tmp_xml);
-   // $i=$i+1;
 
-}
+            $ns = $ini_xml['NS']['name_space'];
+            //var_dump($ns);
+            foreach ($ns as $val) {
+                //  echo "<br>".$val;
+                $tmp_xml = str_replace($val, "", $tmp_xml);
+                // $i=$i+1;
+
+            }
 
 
 
-        //    $tmp_xml = preg_replace("/<.*(xmlns *= *[\"'].[^\"']*[\"']).[^>]*>/i", "", $tmp_xml); 
-           
+            //    $tmp_xml = preg_replace("/<.*(xmlns *= *[\"'].[^\"']*[\"']).[^>]*>/i", "", $tmp_xml); 
+
             $tmp_file = fopen("_" . basename($file), "w");
             fwrite($tmp_file, $tmp_xml);
             $data =  new SimpleXmlElement("_" . basename($file), null, true);
             try {
-                if (strpos($tmp_xml,'LineItem')==false){
+                if (strpos($tmp_xml, 'LineItem') == false) {
 
                     throw new Exception('Attenzione il documento non contiene righe valide!!');
-                
                 }
                 $row = "";
                 $row = "TES";
@@ -314,15 +309,14 @@ foreach ($ns as $val){
                 $di = str_replace('include', '', $directory->getPath());
                 $xml = $di . $ini_array['percorsi']['toelab'] . (basename($f));
                 copy($xml, $di . $ini_array['percorsi']['procfiles'] . (basename($f)));
-           //     echo $row;
+                //     echo $row;
                 unlink($xml);
                 unlink("_" . basename($file));
                 return $row;
             } catch (Exception $var) {
-              //  print $var->getMessage();
-                echo "<H1>il File {$f} Prodotto potrebbe non essere CORRETTO!!!!</BR></H1>";
+                //  print $var->getMessage();
+                echo "<B>il File {$f}  potrebbe non essere CORRETTO!!!!</B><br><B>Non presenta al'interno i dati relativi a un ordine</B><br><BR>";
             }
-            
         }
     }
 
@@ -368,14 +362,14 @@ foreach ($ns as $val){
     }
 
 
-    Function grid()
-{
+    function grid()
+    {
 
-$ini_array = parse_ini_file("config.ini", true /* will scope sectionally */);
-$ext = $ini_array['Parametri']['estensione'];
-//$ini_array['percorsi']['procfiles'];
-$pfile=glob($ini_array['percorsi']['procfiles'] . $ext);
-$html= <<<EOT
+        $ini_array = parse_ini_file("config.ini", true /* will scope sectionally */);
+        $ext = $ini_array['Parametri']['estensione'];
+        //$ini_array['percorsi']['procfiles'];
+        $pfile = glob($ini_array['percorsi']['procfiles'] . $ext);
+        $html = <<<EOT
 <div class="scrollingtable">
 <div>
     <div>
@@ -391,44 +385,22 @@ $html= <<<EOT
  
  <tr><td> 
 EOT;
-foreach($pfile as $pf){
-$bspf=basename($pf);
-   $html=$html. <<<EOT
+        foreach ($pfile as $pf) {
+            $bspf = basename($pf);
+            $html = $html . <<<EOT
 	<label for="name">Nome File</label><br /> 
 	<input ID="{$bspf}" type="checkbox" value="{$bspf}" /> {$bspf}<br /> 
 EOT;
-}
-$html=$html. <<<EOT
+        }
+        $html = $html . <<<EOT
 </td></tbody></table>
 </div>
 </div>
 </div><br>
 <button type="submit" value="Submit" onclick="test()">Cancella</button> 
 EOT;
-return $html;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return $html;
+    }
 }
 ?>
 
