@@ -112,6 +112,8 @@ class ls
 
     function processafile_xml($file, $ind = null)
     {
+
+        
         $ini_array = parse_ini_file("config.ini", true /* will scope sectionally */);
     $ini_xml = parse_ini_file("xml.ini", true /* will scope sectionally */);
 
@@ -203,7 +205,8 @@ class ls
                 print $var->getMessage();
             }
         } 
-        elseif( get_object_vars($subnest_order4) <> false || count($subnest_order4) <> 0
+        elseif( //get_object_vars($subnest_order4) <> false || count($subnest_order4) <> 0 && 
+        1==2
                 ){
             $tmp_xml = file_get_contents($file); //fread(fopen($file,"r"),$file);
             // var_dump($testo);
@@ -265,6 +268,7 @@ class ls
             $tmp_xml = str_replace("ns9:", "", $tmp_xml);
 
 */
+ 
 $ns=$ini_xml['NS']['name_space'];
 //var_dump($ns);
 foreach ($ns as $val){
@@ -274,12 +278,19 @@ foreach ($ns as $val){
 
 }
 
+
+
         //    $tmp_xml = preg_replace("/<.*(xmlns *= *[\"'].[^\"']*[\"']).[^>]*>/i", "", $tmp_xml); 
            
             $tmp_file = fopen("_" . basename($file), "w");
             fwrite($tmp_file, $tmp_xml);
             $data =  new SimpleXmlElement("_" . basename($file), null, true);
             try {
+                if (strpos($tmp_xml,'LineItem')==false){
+
+                    throw new Exception('Attenzione il documento non contiene righe valide!!');
+                
+                }
                 $row = "";
                 $row = "TES";
                 $dt1 =     strtotime($data->Order->IssueDate);
@@ -308,7 +319,7 @@ foreach ($ns as $val){
                 unlink("_" . basename($file));
                 return $row;
             } catch (Exception $var) {
-                print $var->getMessage();
+              //  print $var->getMessage();
                 echo "<H1>il File {$f} Prodotto potrebbe non essere CORRETTO!!!!</BR></H1>";
             }
             
@@ -407,6 +418,11 @@ return $html;
 
 
 
+function xml_child_exists($xml, $childpath)
+{
+    $result = $xml->xpath($childpath); 
+    return (bool) (count($result));
+}
 
 
 
