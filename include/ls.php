@@ -114,10 +114,17 @@ class ls
     {
 
 
+
+        $this->withoutRounding(19.99, 2);// Return "19.99"
+        $this-> withoutRounding(1.505, 2);// Return "1.50"
+        $this->withoutRounding(5.1, 2);// Return "5.10"
+        
+
         $ini_array = parse_ini_file("config.ini", true /* will scope sectionally */);
         $ini_xml = parse_ini_file("xml.ini", true /* will scope sectionally */);
 
         $ext = $ini_array['Parametri']['estensione'];
+        $sep=$ini_array['Parametri']['sep'];
         $f = $file;
         ((is_null($ind) == true) ? $ind = 1 : $ind);
         $directory = new DirectoryIterator(dirname(__FILE__));
@@ -141,16 +148,26 @@ class ls
                 $dt1 =     strtotime($data->Order->Children("cbc", TRUE)->IssueDate);
                 $dt = date("d/m/Y", $dt1);
 
-                $row = $row . "|" . $dt . "|" . $ind . "|" . $data->Order->Children("cac", TRUE)
+                $row = $row . $sep . $dt . $sep . $ind . $sep . $data->Order->Children("cac", TRUE)
                     ->BuyerCustomerParty->Children("cac", TRUE)->Party
                     ->Children("cac", TRUE)->PartyTaxScheme->Children("cbc", TRUE)->CompanyID;
-                $row = $row . "|"   . $dt;
-                $row = $row .   "|" . $data->Order->Children("cbc", TRUE)->ID . "||||" . PHP_EOL;
+                $row = $row . $sep   . $dt;
+                $row = $row .   $sep . $data->Order->Children("cbc", TRUE)->ID .$sep.$sep.$sep.$sep;
+                $row = $row .$sep.'"[CedentePrestatore|RiferimentoAmministrazione|'.
+                $data->Order->children("cac",true)->BuyerCustomerParty->children("cac", TRUE)->Party->
+                children("cbc",true)->EndpointID."]".$sep;
+                $row = $row . '[DatiOrdineAcquisto|Data|'.$dt.']'.$sep;
+                $row = $row .'[DatiOrdineAcquisto|IdDocumento|'.   $data->Order->Children("cbc", TRUE)->ID  ; 
+                $row = $row .']"'; 
+                $row = $row . PHP_EOL;
                 foreach ($data->Order->Children("cac", TRUE)->OrderLine as $line) {
-                    $row = $row . "RIG" . "|"   . $dt . "|{$ind}||||";
-                    $row = $row . $line->Children("cac", true)->LineItem->children("cac", true)->Item->children("cac", true)->BuyersItemIdentification->children("cbc", true)->ID . "||";
+                    $row = $row . "RIG" . $sep   . $dt .$sep.$ind.$sep.$sep.$sep.$sep;
+                    $row = $row . $line->Children("cac", true)->LineItem->children("cac", true)->Item->
+                    children("cac", true)->BuyersItemIdentification->children("cbc", true)->ID . $sep.$sep;
                     $row = $row . $line->Children("cac", true)->LineItem->children("cbc", true)->Quantity;
-                    $row = $row . "|" . $line->Children("cac", true)->LineItem->children("cac", true)->Price->children("cbc", true)->PriceAmount .
+                    $row = $row . $sep . 
+                    $this->withoutRounding($line->Children("cac", true)->LineItem->children("cac", true)
+                    ->Price->children("cbc", true)->PriceAmount,3) .$sep.
                         PHP_EOL;
                 }
             } catch (Exception $var) {
@@ -179,17 +196,25 @@ class ls
                 $dt1 =     strtotime($data->Order->IssueDate);
                 $dt = date("d/m/Y", $dt1);
 
-                $row = $row . "|" . $dt . "|" . $ind . "|" . $data->Order->BuyerCustomerParty->Party
+                $row = $row . $sep . $dt . $sep . $ind . $sep . $data->Order->BuyerCustomerParty->Party
                     ->PartyTaxScheme->CompanyID;
-                $row = $row . "|"   . $dt;
-                $row = $row .   "|" . $data->Order->ID . "||||" . PHP_EOL;
+                $row = $row . $sep   . $dt;
+                $row = $row .   $sep . $data->Order->ID . $sep.$sep.$sep.$sep ;//. PHP_EOL;
+                $row = $row .$sep.'"[CedentePrestatore|RiferimentoAmministrazione|'.
+                $data->Order->BuyerCustomerParty->Party->EndpointID."]".$sep;
+                $row = $row . '[DatiOrdineAcquisto|Data|'.$dt.']'.$sep;
+                $row = $row .'[DatiOrdineAcquisto|IdDocumento|'.   $data->Order->ID ; 
+                $row = $row .']"'; 
+                $row = $row . PHP_EOL;
+
+
                 //   echo '<tr><td>' . $row . '</tr></td>';
                 foreach ($data->Order->OrderLine as $line) {
 
-                    $row = $row . "RIG" . "|"   . $dt . "|{$ind}||||";
-                    $row = $row . $line->LineItem->Item->SellersItemIdentification->ID . "||";
+                    $row = $row . "RIG" . "$sep"   . $dt . $sep.$ind.$sep.$sep.$sep.$sep;
+                    $row = $row . $line->LineItem->Item->SellersItemIdentification->ID . $sep.$sep;
                     $row = $row . $line->LineItem->Quantity;
-                    $row = $row . "|" . $line->LineItem->Price->PriceAmount . PHP_EOL;
+                    $row = $row . $sep . $this->withoutRounding($line->LineItem->Price->PriceAmount,3) . $sep. PHP_EOL;
                 }
 
 
@@ -222,17 +247,23 @@ class ls
                 $dt1 =     strtotime($data->Order->IssueDate);
                 $dt = date("d/m/Y", $dt1);
 
-                $row = $row . "|" . $dt . "|" . $ind . "|" . $data->Order->BuyerCustomerParty->Party
+                $row = $row . $sep . $dt . $sep . $ind . $sep . $data->Order->BuyerCustomerParty->Party
                     ->PartyTaxScheme->CompanyID;
-                $row = $row . "|"   . $dt;
-                $row = $row .   "|" . $data->Order->ID . "||||" . PHP_EOL;
+                $row = $row . $sep   . $dt;
+                $row = $row .   $sep . $data->Order->ID . $sep.$sep.$sep.$sep ;//. PHP_EOL;
+                $row = $row .$sep.'"[CedentePrestatore|RiferimentoAmministrazione|'.
+                $data->Order->BuyerCustomerParty->Party->EndpointID."]".$sep;
+                $row = $row . '[DatiOrdineAcquisto|Data|'.$dt.']'.$sep;
+                $row = $row .'[DatiOrdineAcquisto|IdDocumento|'.   $data->Order->ID ; 
+                $row = $row .']"'; 
+                $row = $row . PHP_EOL;
                 //   echo '<tr><td>' . $row . '</tr></td>';
                 foreach ($data->Order->OrderLine as $line) {
 
-                    $row = $row . "RIG" . "|"   . $dt . "|{$ind}||||";
-                    $row = $row . $line->LineItem->Item->SellersItemIdentification->ID . "||";
+                    $row = $row . "RIG" . $sep   . $dt . $sep.$ind.$sep.$sep.$sep.$sep;
+                    $row = $row . $line->LineItem->Item->SellersItemIdentification->ID . $sep.$sep;
                     $row = $row . $line->LineItem->Quantity;
-                    $row = $row . "|" . $line->LineItem->Price->PriceAmount . PHP_EOL;
+                    $row = $row . $sep . $this->withoutRounding($line->LineItem->Price->PriceAmount,3) .$sep. PHP_EOL;
                 }
 
 
@@ -291,17 +322,24 @@ class ls
                 $dt1 =     strtotime($data->Order->IssueDate);
                 $dt = date("d/m/Y", $dt1);
 
-                $row = $row . "|" . $dt . "|" . $ind . "|" . $data->Order->BuyerCustomerParty->Party
+                $row = $row . $sep . $dt . $sep . $ind . $sep . $data->Order->BuyerCustomerParty->Party
                     ->PartyTaxScheme->CompanyID;
-                $row = $row . "|"   . $dt;
-                $row = $row .   "|" . $data->Order->ID . "||||" . PHP_EOL;
+                $row = $row . $sep   . $dt;
+                $row = $row .   $sep . $data->Order->ID . $sep.$sep.$sep.$sep ;//. PHP_EOL;
+                $row = $row .$sep.'"[CedentePrestatore|RiferimentoAmministrazione|'.
+                $data->Order->BuyerCustomerParty->Party->
+                EndpointID."]".$sep;
+                $row = $row . '[DatiOrdineAcquisto|Data|'.$dt.']'.$sep;
+                $row = $row .'[DatiOrdineAcquisto|IdDocumento|'.   $data->Order->ID ; 
+                $row = $row .']"'; 
+                $row = $row . PHP_EOL;
                 //   echo '<tr><td>' . $row . '</tr></td>';
                 foreach ($data->Order->OrderLine as $line) {
 
-                    $row = $row . "RIG" . "|"   . $dt . "|{$ind}||||";
-                    $row = $row . $line->LineItem->Item->SellersItemIdentification->ID . "||";
+                    $row = $row . "RIG" . $sep   . $dt . $sep.$ind.$sep.$sep.$sep.$sep;
+                    $row = $row . $line->LineItem->Item->SellersItemIdentification->ID . $sep.$sep;
                     $row = $row . $line->LineItem->Quantity;
-                    $row = $row . "|" . $line->LineItem->Price->PriceAmount . PHP_EOL;
+                    $row = $row . $sep . $this->withoutRounding($line->LineItem->Price->PriceAmount,3) .$sep. PHP_EOL;
                 }
 
 
@@ -401,6 +439,39 @@ EOT;
 EOT;
         return $html;
     }
+
+
+// Works with positive and negative numbers, and integers and floats and strings
+function withoutRounding($number, $total_decimals) {
+    $number = (string)$number;
+    if($number === '') {
+        $number = '0';
+    }
+    if(strpos($number, '.') === false) {
+        $number .= '.';
+    }
+    $number_arr = explode('.', $number);
+
+    $decimals = substr($number_arr[1], 0, $total_decimals);
+    if($decimals === false) {
+        $decimals = '0';
+    }
+
+    $return = '';
+    if($total_decimals == 0) {
+        $return = $number_arr[0];
+    } else {
+        if(strlen($decimals) < $total_decimals) {
+            $decimals = str_pad($decimals, $total_decimals, '0', STR_PAD_RIGHT);
+        }
+        $return = $number_arr[0] . '.' . $decimals;
+    }
+    return $return;
+}
+
+// How to use:
+
+
 }
 ?>
 
