@@ -115,9 +115,9 @@ class ls
 
 
 
-        $this->withoutRounding(19.99, 2);// Return "19.99"
-        $this-> withoutRounding(1.505, 2);// Return "1.50"
-        $this->withoutRounding(5.1, 2);// Return "5.10"
+       // $this->withoutRounding(19.99, 2);// Return "19.99"
+       // $this-> withoutRounding(1.505, 2);// Return "1.50"
+       // $this->withoutRounding(5.1, 2);// Return "5.10"
         
 
         $ini_array = parse_ini_file("config.ini", true /* will scope sectionally */);
@@ -158,8 +158,10 @@ class ls
                 children("cbc",true)->EndpointID."]".$sep;
                 $row = $row . '[DatiOrdineAcquisto|Data|'.$dt.']'.$sep;
                 $row = $row .'[DatiOrdineAcquisto|IdDocumento|'.   $data->Order->Children("cbc", TRUE)->ID  ; 
-                $row = $row .']"'; 
-                $row = $row . PHP_EOL;
+                $row = $row .']"'.$sep; 
+                $row = $row .  str_replace("CIG:", "",$data->Order->Children('cac',TRUE)->
+                OriginatorDocumentReference->children('cbc',true)->ID);
+                $row = $row .$sep. PHP_EOL;
                 foreach ($data->Order->Children("cac", TRUE)->OrderLine as $line) {
                     $row = $row . "RIG" . $sep   . $dt .$sep.$ind.$sep.$sep.$sep.$sep;
                     $row = $row . $line->Children("cac", true)->LineItem->children("cac", true)->Item->
@@ -204,7 +206,8 @@ class ls
                 $data->Order->BuyerCustomerParty->Party->EndpointID."]".$sep;
                 $row = $row . '[DatiOrdineAcquisto|Data|'.$dt.']'.$sep;
                 $row = $row .'[DatiOrdineAcquisto|IdDocumento|'.   $data->Order->ID ; 
-                $row = $row .']"'; 
+                $row = $row .']"'.$sep; 
+                $row = $row . str_replace("CIG:", "",$data->Order->OriginatorDocumentReference->ID).$sep;
                 $row = $row . PHP_EOL;
 
 
@@ -255,7 +258,8 @@ class ls
                 $data->Order->BuyerCustomerParty->Party->EndpointID."]".$sep;
                 $row = $row . '[DatiOrdineAcquisto|Data|'.$dt.']'.$sep;
                 $row = $row .'[DatiOrdineAcquisto|IdDocumento|'.   $data->Order->ID ; 
-                $row = $row .']"'; 
+                $row = $row .']"'.$sep; 
+                $row = $row . str_replace("CIG:", "",$data->Order->OriginatorDocumentReference->ID).$sep;
                 $row = $row . PHP_EOL;
                 //   echo '<tr><td>' . $row . '</tr></td>';
                 foreach ($data->Order->OrderLine as $line) {
@@ -331,7 +335,8 @@ class ls
                 EndpointID."]".$sep;
                 $row = $row . '[DatiOrdineAcquisto|Data|'.$dt.']'.$sep;
                 $row = $row .'[DatiOrdineAcquisto|IdDocumento|'.   $data->Order->ID ; 
-                $row = $row .']"'; 
+                $row = $row .']"'.$sep;
+                $row = $row . str_replace("CIG:", "",$data->Order->OriginatorDocumentReference->ID).$sep; 
                 $row = $row . PHP_EOL;
                 //   echo '<tr><td>' . $row . '</tr></td>';
                 foreach ($data->Order->OrderLine as $line) {
