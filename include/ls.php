@@ -199,10 +199,20 @@ class ls
                 foreach ($data->Order->OrderLine as $line) {
 
                     $row = $row . "RIG" . $sep   . $dt . $sep.$ind.$sep.$sep.$sep.$sep;
-                    $row = $row . $line->LineItem->Item->SellersItemIdentification->ID . $sep.$sep;
+                    
+                     
+                     if($line->LineItem->Item->SellersItemIdentification->ID <> null
+                     ){
+                        $Art = $line->LineItem->Item->SellersItemIdentification->ID;
+                     } else {
+                        $Art = $line->LineItem->Item->BuyersItemIdentification->ID;
+                     }
+                     
+                     
+                     $row = $row .$Art . $sep.$sep;
                     $row = $row . $line->LineItem->Quantity;
                     $row = $row . $sep . $this->withoutRounding($line->LineItem->Price->PriceAmount,3) .$sep.$sep;
-                    $row=$row.$line->LineItem->Item->Name.' '.$line->Note.$sep;
+                    $row=$row.$line->LineItem->Item->Name.' '.$line->Note.$sep.$sep;
                     $row=$row.$this->withoutRounding($line->LineItem->LineExtensionAmount,3) .$sep. PHP_EOL;
                 }
 
@@ -234,7 +244,7 @@ class ls
         $web= glob($ini_array['percorsi']['output'] .'/*.csv');
  
         foreach ($web as $f) {
-          echo  "rimosso file {$f}<br>";
+        //  echo  "rimosso file {$f}<br>";
         $this->reset($f);
            }
     

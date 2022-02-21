@@ -192,8 +192,9 @@ EOT;
 </td>
 </tr>
 <tr style="height: 116.188px;">
-
-<td style="width: 301px; height: 116.188px;">Seleziona file da caricare   
+ 
+<td style="width: 301px; height: 116.188px;">
+ Seleziona file da caricare   
   <form enctype="multipart/form-data" action="upload.php" method="post">
         <div>
            
@@ -203,7 +204,7 @@ EOT;
             <button type="submit">Upload</button>
         </div>
     </form>
- 
+  
 </tr>
 <tr style="height: 18px;">
 <td style="width: 301px; height: 18px;">&nbsp;</td>

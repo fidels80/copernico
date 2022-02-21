@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<MetadatiInvioFile xmlns:ns2="http://www.w3.org/2000/09/xmldsig#" xmlns:ns3="http://nso.rgs.mef.gov.it/docs/xsd/ordini/messaggi/v1.0" versione="1.0">
+    <Identificativo>14015623</Identificativo>
+    <NomeFile>IT01033011006_OZ_00GTY.xml</NomeFile>
+    <CodiceDestinatario>NSO0:FATTURE.COPERNICO@LEGALMAIL.IT</CodiceDestinatario>
+    <Formato>OZ</Formato>
+    <TentativiInvio>1</TentativiInvio>
+    <MessageId>46433513</MessageId>
+    <HASH>a77a8831533d97a4e6defd1752b0c5c6649e8c76734a71f500cc022b79922f39</HASH>
+</MetadatiInvioFile>
