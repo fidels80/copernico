@@ -112,17 +112,11 @@ class ls
 
     function processafile_xml($file, $ind = null)
     {
-
-
-
        // $this->withoutRounding(19.99, 2);// Return "19.99"
        // $this-> withoutRounding(1.505, 2);// Return "1.50"
        // $this->withoutRounding(5.1, 2);// Return "5.10"
-        
-
         $ini_array = parse_ini_file("config.ini", true /* will scope sectionally */);
         $ini_xml = parse_ini_file("xml.ini", true /* will scope sectionally */);
-
         $ext = $ini_array['Parametri']['estensione'];
         $sep=$ini_array['Parametri']['sep'];
         $f = $file;
@@ -139,8 +133,7 @@ class ls
         $subnest = ($data->Order->Children("cac", TRUE)->OrderLine);
         $subnest_covid = ($data->Children("ns8", TRUE)->Order->Children("ns2", TRUE)->OrderLine);
         $subnest_order4 =        ($data->Children("ns4", TRUE)->Order->Children("ns3", TRUE)->OrderLine);
-
-            $tmp_xml = file_get_contents($file); //fread(fopen($file,"r"),$file);
+        $tmp_xml = file_get_contents($file); //fread(fopen($file,"r"),$file);
             // var_dump($testo);
             $tmp_file = fopen("_" . basename($file), "w");
             fwrite($tmp_file, $tmp_xml);
@@ -211,9 +204,9 @@ class ls
                      
                      $row = $row .$Art . $sep.$sep;
                     $row = $row . $line->LineItem->Quantity;
-                    $row = $row . $sep . $this->withoutRounding($line->LineItem->Price->PriceAmount,3) .$sep.$sep;
+                    $row = $row . $sep . $this->withoutRounding($line->LineItem->Price->PriceAmount,2) .$sep.$sep;
                     $row=$row.$line->LineItem->Item->Name.' '.$line->Note.$sep.$sep;
-                    $row=$row.$this->withoutRounding($line->LineItem->LineExtensionAmount,3) .$sep. PHP_EOL;
+                    $row=$row.$this->withoutRounding($line->LineItem->LineExtensionAmount,2) .$sep. PHP_EOL;
                 }
 
 
@@ -349,7 +342,7 @@ function withoutRounding($number, $total_decimals) {
         if(strlen($decimals) < $total_decimals) {
             $decimals = str_pad($decimals, $total_decimals, '0', STR_PAD_RIGHT);
         }
-        $return = $number_arr[0] . '.' . $decimals;
+        $return = $number_arr[0] . ',' . $decimals;
     }
     return $return;
 }
