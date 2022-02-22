@@ -206,7 +206,7 @@ class ls
                     $row = $row . $line->LineItem->Quantity;
                     $row = $row . $sep . $this->withoutRounding($line->LineItem->Price->PriceAmount,2) .$sep.$sep;
                     $row=$row.$line->LineItem->Item->Name.' '.$line->Note.$sep.$sep;
-                    $row=$row.$this->withoutRounding($line->LineItem->LineExtensionAmount,2) .$sep. PHP_EOL;
+                    $row=$row.$this->withoutRounding($line->LineItem->LineExtensionAmount,2) . PHP_EOL;
                 }
 
 
