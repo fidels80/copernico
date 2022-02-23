@@ -1,4 +1,6 @@
+<?php include("password_protect.php"); ?>
 <?php 
+
 include('.\include\ls.php');
 include('.\include\pb.php');
 ini_set('display_errors', '1');

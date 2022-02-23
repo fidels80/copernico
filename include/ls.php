@@ -220,7 +220,16 @@ class ls
                 return $row;
             } catch (Exception $var) {
                 //  print $var->getMessage();
-                echo "<B>il File {$f}  potrebbe non essere CORRETTO!!!!</B><br><B>Non presenta al'interno i dati relativi a un ordine</B><br><BR>";
+                echo "<B>il File {$f}  potrebbe non essere CORRETTO!!!!</B>
+                <br><B>Non presenta al'interno i dati relativi a un ordine</B><br><BR>";
+                
+                $di = str_replace('include', '', $directory->getPath());
+                $xml = $di . $ini_array['percorsi']['toelab'] . (basename($f));
+                copy($xml, $di . $ini_array['percorsi']['procfiles'] . (basename($f)));
+                //     echo $row;
+                unlink($xml);
+                unlink("_" . basename($file));
+           
             }
         
     }
@@ -313,7 +322,7 @@ EOT;
 </div>
 </div>
 </div><br>
-<button type="submit" value="Submit" onclick="test()">Cancella</button> 
+<button type="submit" value="Submit" onclick="devdel()">Cancella</button> 
 EOT;
         return $html;
     }

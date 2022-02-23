@@ -1,26 +1,63 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<?php 
+$directory = new DirectoryIterator(dirname(__FILE__));
+$di =str_replace('include','',$directory->getPath());
+$di=str_replace(__DIR__,'include','');
+$ini_array = parse_ini_file("config.ini", true /* will scope sectionally */);
+$lpath = ($di.''.$ini_array['percorsi']['procfiles'] );
+
+echo <<<EOT
 <script>
-function test()
+
+function devdel()
 {
+  //const fs = require("fs");
+ 
     var idSelector = function() { return this.id; };
     var fruitsGranted = $(":checkbox:checked").map(idSelector).get() ;
     var fruitsDenied = $(":checkbox:not(:checked)").map(idSelector).get() ;
-    
-    alert("fruitsGranted: " + fruitsGranted  );
+    percorso="{$lpath}\";
+    percorso=".\\\" +percorso;
+    console.log(percorso);
+    //alert("" + fruitsGranted  );
     console.log(fruitsGranted);
     console.log(jQuery.type( fruitsGranted ));
-
     $.each(fruitsGranted, function(index, value){
         //    $("#result").append(index + ": " + value + '<br>');
-       
+        var r = confirm("sei sicuro di voler cancellare il file??")
+        var pass=prompt("immetti il codice di sicurezza");
+        console.log(pass);
+        
+        if(r == true &&  pass=="ilvbc")
+        {
+            $.ajax({
+              url: 'delete.php',
+              //data: {'file' : "<?php echo dirname(__FILE__) . '/uploads/'?>" + file_name },
+              data: {'file' : percorso + value },
+              
+              success: function (response) {
+                 // do something
+                 console.log("successo "+percorso + value);
+              },
+              error: function () {
+                 // do something
+                 console.log("no"+percorso + value);
+              }
+            });
+        }
+
+
+
     console.log(index+"|||"+value);
     });
 
-
+    location.reload();
  
 }
 </script>
-<?php
+EOT;
+
 include('.\include\ls.php');
 echo <<<EOT
 <style>
