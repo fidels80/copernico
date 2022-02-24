@@ -198,7 +198,7 @@ EOT;
   <form enctype="multipart/form-data" action="upload.php" method="post">
         <div>
            
-            <input type="file" id="file" name="file" accept="text/xml"/>
+            <input type="file" id="file" name="file[]" multiple accept="text/xml"/>
         </div>
         <div>
             <button type="submit">Upload</button>
